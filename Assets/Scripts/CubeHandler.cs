@@ -12,19 +12,13 @@ using UnityEngine.XR.Interaction.Toolkit.Utilities.Internal;
 
 public class CubeHandler : MonoBehaviour {
 
-    [SerializeField]
-    private XRRayInteractor raycastInteractor;
-
-    [SerializeField]
-    private GameObject spawnObject;
-
-    [SerializeField]
-    private XRScreenSpaceController controller;
+    public XRRayInteractor raycastInteractor;
+    public GameObject spawnObject;
+    public XRScreenSpaceController controller;
 
     void Start() {
         InputActionProperty tapAction = controller.tapStartPositionAction;
         InputActionProperty dragAction = controller.dragCurrentPositionAction;
-
         if (Application.isEditor) {
             dragAction.action.canceled += ctx => OnDragEnd(ctx);
         } else {
@@ -37,7 +31,7 @@ public class CubeHandler : MonoBehaviour {
         if (raycastInteractor.TryGetCurrent3DRaycastHit(out hit3D)) {
             if (hit3D.transform.gameObject.GetComponent<ARPlane>() != null) {
                 GameObject spawned = Instantiate(spawnObject);
-                spawned.transform.position = hit3D.point;
+                spawned.transform.position = hit3D.point += new Vector3(0, 0.1f, 0);
             }
         }
     }
