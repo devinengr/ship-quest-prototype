@@ -21,12 +21,9 @@ public class CubeHandler : MonoBehaviour {
     [SerializeField]
     private XRScreenSpaceController controller;
 
-    private InputActionProperty tapAction;
-    private InputActionProperty dragAction;
-
     void Start() {
-        tapAction = controller.tapStartPositionAction;
-        dragAction = controller.dragCurrentPositionAction;
+        InputActionProperty tapAction = controller.tapStartPositionAction;
+        InputActionProperty dragAction = controller.dragCurrentPositionAction;
 
         if (Application.isEditor) {
             dragAction.action.canceled += ctx => OnDragEnd(ctx);

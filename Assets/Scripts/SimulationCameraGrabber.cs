@@ -5,16 +5,13 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SimulationCameraGrabber : MonoBehaviour
-{
-    // todo set this as Camera, not GameObject
+public class SimulationCameraGrabber : MonoBehaviour {
+
     [SerializeField]
     [Tooltip("The simulation camera is loaded by XR Simulation when the scene starts. The script will automatically fetch it.")]
     private GameObject simulationCamera;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         if (simulationCamera == null && Application.isEditor) {
             GameObject[] gameObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
             foreach (GameObject gameObject in gameObjects) {
@@ -29,12 +26,11 @@ public class SimulationCameraGrabber : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (simulationCamera != null) {
             simulationCamera.transform.localPosition = new Vector3(0, 0, 0);
             simulationCamera.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
+
 }
