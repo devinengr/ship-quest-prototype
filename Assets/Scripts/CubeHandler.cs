@@ -1,0 +1,52 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Scripting;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Utilities.Internal;
+
+public class CubeHandler : MonoBehaviour {
+
+    [SerializeField]
+    private XRRayInteractor raycastInteractor;
+
+    [SerializeField]
+    private GameObject spawnObject;
+
+    [SerializeField]
+    private XRScreenSpaceController controller;
+
+    private InputActionProperty tapAction;
+    private InputActionProperty dragAction;
+
+    void Start() {
+        tapAction = controller.tapStartPositionAction;
+        dragAction = controller.dragCurrentPositionAction;
+
+        if (Application.isEditor) {
+            dragAction.action.canceled += ctx => OnDragEnd(ctx);
+        } else {
+            tapAction.action.started += ctx => OnTapStart(ctx);
+        }
+    }
+    
+    void OnTapStart(InputAction.CallbackContext ctx) {
+        RaycastHit hit3D;
+        if (raycastInteractor.TryGetCurrent3DRaycastHit(out hit3D)) {
+            if (hit3D.transform.gameObject.GetComponent<ARPlane>() != null) {
+                GameObject spawned = Instantiate(spawnObject);
+                spawned.transform.position = hit3D.point;
+            }
+        }
+    }
+
+    void OnDragEnd(InputAction.CallbackContext ctx) {
+        OnTapStart(ctx);
+    }
+
+}

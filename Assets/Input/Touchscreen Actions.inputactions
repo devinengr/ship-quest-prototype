@@ -1,0 +1,87 @@
+{
+    "name": "Touchscreen Actions",
+    "maps": [
+        {
+            "name": "Gestures",
+            "id": "463bbcdc-a052-4208-b46d-6f4807a0c703",
+            "actions": [
+                {
+                    "name": "Tap",
+                    "type": "Value",
+                    "id": "f77181b1-134c-4653-abd8-c530b0a69915",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Drag",
+                    "type": "Value",
+                    "id": "0201dc9b-08de-4cf4-972b-f3bff7c30617",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "980e3a55-d21c-4ee2-bba3-c951cd096adb",
+                    "path": "<TouchscreenGestureInputController>/dragCurrentPosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Drag",
+                    "id": "2c8815d1-f609-477f-ac07-161ea0a1a3c1",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "113cd8a5-d821-4a87-94e0-afd1072fbe8f",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "6355f6e5-e660-49a9-b156-f7ff423ee2db",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "812c0f68-7463-424c-bf1f-a982f6601e9a",
+                    "path": "<TouchscreenGestureInputController>/tapStartPosition",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
