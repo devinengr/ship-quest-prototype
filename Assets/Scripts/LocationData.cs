@@ -9,20 +9,19 @@ using UnityEngine.InputSystem;
 public struct Location {
 
     public string name;
-    public double latitude;
-    public double longitude;
+    public float latitude;
+    public float longitude;
+    public float altitude;
 
-    public Location(string name, double latitude, double longitude) {
+    public Location(string name, float latitude, float longitude, float altitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.altitude = altitude;
     }
 
-    public Location(double latitude, double longitude) {
-        this.name = "Unspecified";
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    public Location(float latitude, float longitude, float altitude)
+                    : this("Unspecified", latitude, longitude, altitude) {}
 
 }
 
@@ -40,8 +39,7 @@ public class LocationData : MonoBehaviour {
     public Location currentLocation { get; set; }
     public LocationServiceStatus locationServiceStatus { get; }
 
-    void Start()
-    {
+    void Start() {
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
             Permission.RequestUserPermission(Permission.FineLocation);
         }
@@ -56,12 +54,7 @@ public class LocationData : MonoBehaviour {
     private bool hasBeenUpdated = false;
 
     void Update() {
-        int currentTime = Environment.TickCount;
-        if (!hasBeenUpdated || currentTime - lastUpdateTime >= updateFrequency) {
-            GetLocation();
-            hasBeenUpdated = true;
-            lastUpdateTime = Environment.TickCount;
-        }
+        GetLocation();
     }
 
     void GetLocation() {
@@ -69,7 +62,11 @@ public class LocationData : MonoBehaviour {
             Debug.LogFormat("Unable to fetch device location with status {0}.", Input.location.status);
             return;
         }
-        currentLocation = new Location(Input.location.lastData.latitude, Input.location.lastData.longitude);
+        currentLocation = new Location(
+            Input.location.lastData.latitude,
+            Input.location.lastData.longitude,
+            Input.location.lastData.altitude
+        );
     }
 
 }

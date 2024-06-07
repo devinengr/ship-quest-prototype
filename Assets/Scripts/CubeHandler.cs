@@ -20,13 +20,13 @@ public class CubeHandler : MonoBehaviour {
         InputActionProperty tapAction = controller.tapStartPositionAction;
         InputActionProperty dragAction = controller.dragCurrentPositionAction;
         if (Application.isEditor) {
-            dragAction.action.canceled += ctx => OnDragEnd(ctx);
+            dragAction.action.canceled += ctx => RaycastCallback(ctx);
         } else {
-            tapAction.action.started += ctx => OnTapStart(ctx);
+            tapAction.action.started += ctx => RaycastCallback(ctx);
         }
     }
     
-    void OnTapStart(InputAction.CallbackContext ctx) {
+    void RaycastCallback(InputAction.CallbackContext ctx) {
         RaycastHit hit3D;
         if (raycastInteractor.TryGetCurrent3DRaycastHit(out hit3D)) {
             if (hit3D.transform.gameObject.GetComponent<ARPlane>() != null) {
@@ -34,10 +34,6 @@ public class CubeHandler : MonoBehaviour {
                 spawned.transform.position = hit3D.point += new Vector3(0, 0.1f, 0);
             }
         }
-    }
-
-    void OnDragEnd(InputAction.CallbackContext ctx) {
-        OnTapStart(ctx);
     }
 
 }

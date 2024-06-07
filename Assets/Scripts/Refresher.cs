@@ -7,12 +7,8 @@ using UnityEngine.UI;
 
 public class Refresher : MonoBehaviour {
 
-    [Range(1,60000)]
-    [Tooltip("How often the refresher will update the UI elements (in milliseconds).")]
-    public int updateFrequency;
-
-    public RotationData rotationData;
-    public TMP_Text labelRotation;
+    public CompassData compassData;
+    public TMP_Text labelCompass;
 
     public LocationData locationData;
     public TMP_Text labelLatitude;
@@ -25,15 +21,11 @@ public class Refresher : MonoBehaviour {
 
     void Update() {
         int currentTime = Environment.TickCount;
-        if (!hasBeenUpdated || currentTime - lastUpdateTime >= updateFrequency) {
-            PerformRefresh();
-            hasBeenUpdated = true;
-            lastUpdateTime = Environment.TickCount;
-        }
+        PerformRefresh();
     }
 
     void PerformRefresh() {
-        labelRotation.text = "Rotation: ...";
+        labelCompass.text = "Compass: " + compassData.lastAvg;
         labelLatitude.text = "Latitude: " + locationData.currentLocation.latitude.ToString();
         labelLongitude.text = "Longitude: " + locationData.currentLocation.longitude.ToString();
         labelAltitude.text = "Altitude: ...";
