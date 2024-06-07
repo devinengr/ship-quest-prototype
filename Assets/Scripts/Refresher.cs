@@ -9,6 +9,7 @@ public class Refresher : MonoBehaviour {
 
     public CompassData compassData;
     public TMP_Text labelCompass;
+    public TMP_Text labelOriginRotation;
 
     public LocationData locationData;
     public TMP_Text labelLatitude;
@@ -26,6 +27,7 @@ public class Refresher : MonoBehaviour {
 
     void PerformRefresh() {
         labelCompass.text = "Compass: " + compassData.lastAvg;
+        labelOriginRotation.text = "Origin Rotation: " + compassData.originRotatedAmount + " deg";
         labelLatitude.text = "Latitude: " + locationData.currentLocation.latitude.ToString();
         labelLongitude.text = "Longitude: " + locationData.currentLocation.longitude.ToString();
         labelAltitude.text = "Altitude: ...";
