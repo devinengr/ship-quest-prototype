@@ -53,9 +53,14 @@ public class CompassData : MonoBehaviour {
             UpdateCompassAverage();
             AnchorSessionOrigin();
         }
+
+        // todo temp
+        Vector3 pos = worldOrigin.transform.position;
+        Debug.LogFormat("World origin: {0}, {1}, {2}", pos.x, pos.y, pos.z);
+        // end todo temp
     }
 
-    private void AnchorSessionOrigin() {
+    public void AnchorSessionOrigin() {
         // Rotation of the parent transform (AR Session Origin) will rotate the
         // camera successfully. Call it once after the averages come in.
         // It will anchor the "origin camera"

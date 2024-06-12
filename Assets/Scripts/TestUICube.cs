@@ -25,7 +25,7 @@ public class TestUICube : MonoBehaviour {
         float percY = posY / mainCamera.pixelHeight;
         percX = rightAnchorX ? 1 - percX : percX;
         percY = topAnchorY ? 1 - percY : percY;
-        Vector3 pos = mainCamera.ViewportToWorldPoint(new Vector3(percX, percY, mainCamera.farClipPlane - 1f));
+        Vector3 pos = mainCamera.ViewportToWorldPoint(new Vector3(percX, percY, mainCamera.farClipPlane - 100f));
         cube.transform.position = pos;
         cube.transform.rotation = mainCamera.transform.rotation;
         float rotationSpeedNormalized = rotationSpeed * Time.deltaTime;

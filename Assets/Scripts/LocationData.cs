@@ -37,7 +37,7 @@ public class LocationData : MonoBehaviour {
     public List<Location> locations;
 
     public Location currentLocation { get; set; }
-    public LocationServiceStatus locationServiceStatus { get; }
+    public LocationServiceStatus locationServiceStatus { get; set; }
 
     void Start() {
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
@@ -47,13 +47,11 @@ public class LocationData : MonoBehaviour {
             Debug.Log("Location not enabled. Using default latitude and longitude.");
             currentLocation = defaultLocation;
         }
-        Input.location.Start();
+        Input.location.Start(5);
     }
 
-    private int lastUpdateTime = 0;
-    private bool hasBeenUpdated = false;
-
     void Update() {
+        locationServiceStatus = Input.location.status;
         GetLocation();
     }
 

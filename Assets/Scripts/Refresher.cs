@@ -17,21 +17,22 @@ public class Refresher : MonoBehaviour {
     public TMP_Text labelAltitude;
     public TMP_Text labelLocationServiceStatus;
 
-    private int lastUpdateTime = 0;
-    private bool hasBeenUpdated = false;
+    public TMP_Text labelARRecalibrating;
 
     void Update() {
-        int currentTime = Environment.TickCount;
         PerformRefresh();
     }
 
     void PerformRefresh() {
+        float altitudeInFeet = locationData.currentLocation.altitude * 3.28084f;
+
+        labelLocationServiceStatus.text = "Location Service: " + locationData.locationServiceStatus;
         labelCompass.text = "Compass: " + compassData.lastAvg;
         labelOriginRotation.text = "Origin Rotation: " + compassData.originRotatedAmount + " deg";
         labelLatitude.text = "Latitude: " + locationData.currentLocation.latitude.ToString();
         labelLongitude.text = "Longitude: " + locationData.currentLocation.longitude.ToString();
-        labelAltitude.text = "Altitude: ...";
-        labelLocationServiceStatus.text = "Location Service: " + locationData.locationServiceStatus;
+        labelAltitude.text = "Altitude: " + locationData.currentLocation.altitude.ToString()
+                            + " m (" + altitudeInFeet + " ft" + ")";
     }
 
 }
