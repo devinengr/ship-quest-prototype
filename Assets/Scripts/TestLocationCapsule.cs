@@ -16,11 +16,25 @@ public class TestLocationCapsule : MonoBehaviour {
 
     public Location location;
 
+    public bool grabbed { get; set; } = false;
+    public GameObject UICubeCollector;
+    private float t;
+
     void Start() {
         lastPlayerLocation = new Location(0, 0, 0);
     }
 
     void Update() {
+        transform.rotation *= Quaternion.Euler(0, 50 * Time.deltaTime, 0);
+
+        if (grabbed) {
+            transform.position = Vector3.Lerp(transform.position, UICubeCollector.transform.position, t);
+            t += 2 * Time.deltaTime;
+            if (transform.position.Equals(UICubeCollector.transform.position)) {
+                Destroy(transform.gameObject);
+            }
+        }
+
         if (Input.location.status == LocationServiceStatus.Running) {
             if (!grabbedLocation || lastPlayerLocation.latitude != locationData.currentLocation.latitude
                                             || lastPlayerLocation.longitude != locationData.currentLocation.longitude) {
