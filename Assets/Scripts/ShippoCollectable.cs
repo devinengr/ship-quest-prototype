@@ -59,7 +59,7 @@ public class ShippoCollectable : MonoBehaviour {
         if (Vector3.Distance(camera.transform.position, transform.position) < interactionDistance) {
             GetComponent<Renderer>().material.color = Color.cyan;
         } else {
-            GetComponent<Renderer>().material.color = Color.magenta;
+            GetComponent<Renderer>().material.color = Color.white;
         }
     }
 
