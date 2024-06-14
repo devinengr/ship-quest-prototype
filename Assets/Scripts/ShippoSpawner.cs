@@ -21,6 +21,7 @@ public class ShippoSpawner : MonoBehaviour {
     void Start() {
         lastPlayerLocation = new Location(0, 0, 0);
         shippoMap = new Dictionary<Location, GameObject>();
+        // spawn all Shippos and set their locations
         foreach (Location loc in locations) {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = converter.GeoToCartesian(loc.longitude, loc.altitude, loc.latitude);
@@ -30,24 +31,23 @@ public class ShippoSpawner : MonoBehaviour {
     }
 
     void Update() {
-        if (!grabbedLocation ||
-                lastPlayerLocation.latitude !=
-                locationData.currentLocation.latitude ||
-                lastPlayerLocation.longitude !=
-                locationData.currentLocation.longitude) {
+        // check if the player moved (or if the app just started)
+        if (!grabbedLocation || !lastPlayerLocation.Matches(locationData.currentLocation)) {
             grabbedLocation = true;
-            lastPlayerLocation.latitude = locationData.currentLocation.latitude;
-            lastPlayerLocation.longitude = locationData.currentLocation.longitude;
-            Vector3 playerLocation = converter.GeoToCartesian(
-                locationData.currentLocation.longitude, 0,
-                locationData.currentLocation.latitude);
+            float lat = locationData.currentLocation.latitude;
+            float lon = locationData.currentLocation.longitude;
+            // update last player location and get Unity coordinates for it
+            lastPlayerLocation.latitude = lat;
+            lastPlayerLocation.longitude = lon;
+            Vector3 playerLocation = converter.GeoToCartesian(lon, 0, lat);
+            // adjust all Shippo positions based on new player location
             foreach (Location loc in locations) {
                 GameObject shippo = shippoMap[loc];
                 Vector3 shippoLoc = converter.GeoToCartesian(loc.longitude, 0, loc.latitude);
                 shippoLoc = shippoLoc - playerLocation;
                 shippo.transform.position = shippoLoc + mainCamera.transform.position;
             }
-        }                                    
+        }
         foreach (Location loc in locations) {
             GameObject shippo = shippoMap[loc];
             // change color based on distance
@@ -60,8 +60,8 @@ public class ShippoSpawner : MonoBehaviour {
             if (shippo.GetComponent<ShippoCollectable>().grabbed) {
                 shippo.transform.position = Vector3.Lerp(shippo.transform.position, UIShipBall.transform.position, t);
                 shippo.transform.localScale = Vector3.Lerp(shippo.transform.localScale, UIShipBall.transform.localScale, t);
-                t += 0.05f * Time.deltaTime;
-                if (Vector3.Distance(shippo.transform.position, UIShipBall.transform.position) < 0.01f) {
+                t += 0.2f * Time.deltaTime;
+                if (Vector3.Distance(shippo.transform.position, UIShipBall.transform.position) < 0.1f) {
                     shippoMap.Remove(loc);
                     Destroy(shippo.transform.gameObject);
                 }

@@ -23,6 +23,18 @@ public struct Location {
     public Location(float latitude, float longitude, float altitude)
                     : this("Unspecified", latitude, longitude, altitude) {}
 
+    public bool Matches(Location other) {
+        float delta = 0.00001f;
+        if (latitude - other.latitude <= delta) {
+            if (longitude - other.longitude <= delta) {
+                if (altitude - other.altitude <= delta) {
+                    return true;
+                }
+            }
+        } 
+        return false;
+    }
+
 }
 
 public class LocationData : MonoBehaviour {
