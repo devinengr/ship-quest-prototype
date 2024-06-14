@@ -12,14 +12,6 @@ public class GeoConverter : MonoBehaviour {
     public float RadToDeg(float rad) {
         return rad * Mathf.Rad2Deg;
     }
-
-    // public Vector3 GeoToCartesian(float longitude, float altitude, float latitude) {
-    //     float earthRadiusInFeet = 3958.8f * 5280f;
-    //     float longRad = DegToRad(longitude);
-    //     float latRad = DegToRad(longitude);
-
-    //     float x = earthRadiusInFeet * Mathf.Cos(DegToRad(latitude)) * Mathf.Co
-    // }
     
     public Vector3 GeoToCartesian(float longitude, float altitude, float latitude) {
         // x = longitude
@@ -55,13 +47,6 @@ public class GeoConverter : MonoBehaviour {
         float x = longitude * metersPerLongitude;
         float y = altitude * metersPerAltitude;
         float z = latitude * metersPerLatitude;
-
-        // Adjust scaling to accurately match the object position in real life.
-        // Distance traveled IRL roughly equals 63% of distance traveled in Unity.
-        // If the hypotenuse gains 63% of itself, X and Z gain 63% of themselves
-        // as well.
-        // x /= 0.63f;
-        // z /= 0.63f; todo unity actually didn't respond to this
 
         return new Vector3(x, y, z);
     }

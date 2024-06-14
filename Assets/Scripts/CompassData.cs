@@ -106,4 +106,5 @@ public class CompassData : MonoBehaviour {
         }
         lastAvg = sum / lastCompassReads.Length % 360;
     }
+
 }
