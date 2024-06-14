@@ -43,9 +43,13 @@ public class ShippoSpawner : MonoBehaviour {
             // adjust all Shippo positions based on new player location
             foreach (Location loc in locations) {
                 GameObject shippo = shippoMap[loc];
-                Vector3 shippoLoc = converter.GeoToCartesian(loc.longitude, 0, loc.latitude);
-                shippoLoc = shippoLoc - playerLocation;
-                shippo.transform.position = shippoLoc + mainCamera.transform.position;
+                // don't readjust the location of the Shippo if it's already grabbed
+                // because it's currently moving to the ShipBall.
+                if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
+                    Vector3 shippoLoc = converter.GeoToCartesian(loc.longitude, 0, loc.latitude);
+                    shippoLoc = shippoLoc - playerLocation;
+                    shippo.transform.position = shippoLoc + mainCamera.transform.position;
+                }
             }
         }
         foreach (Location loc in locations) {
