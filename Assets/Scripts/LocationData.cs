@@ -33,9 +33,6 @@ public class LocationData : MonoBehaviour {
     [Tooltip("The location used if location fetching fails.")]
     public Location defaultLocation;
 
-    [Tooltip("Locations of notable locations on campus.")]
-    public List<Location> locations;
-
     public Location currentLocation { get; set; }
     public LocationServiceStatus locationServiceStatus { get; set; }
 

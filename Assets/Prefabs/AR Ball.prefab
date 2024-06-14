@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 6939825712577619768}
   - component: {fileID: 7951872528517847306}
   m_Layer: 0
-  m_Name: AR Cube
+  m_Name: AR Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

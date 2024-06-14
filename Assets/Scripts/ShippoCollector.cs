@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class HippoCollector : MonoBehaviour {
+public class ShippoCollector : MonoBehaviour {
 
     public XRScreenSpaceController controller;
     public XRRayInteractor raycastInteractor;
 
     public ScoreCounter scoreCounter;
-    public Camera camera;
+    public Camera mainCamera;
+    public ShippoSpawner spawner;
 
     void Start() {
         InputActionProperty tapAction = controller.tapStartPositionAction;
@@ -28,11 +29,13 @@ public class HippoCollector : MonoBehaviour {
         if (raycastInteractor.TryGetCurrent3DRaycastHit(out hit3D)) {
             if (hit3D.transform.gameObject.CompareTag("ShippoTheHippo")) {
                 ShippoCollectable collectable = hit3D.transform.gameObject.GetComponent<ShippoCollectable>();
-                Vector3 camPos = camera.transform.position;
+                Vector3 camPos = mainCamera.transform.position;
                 Vector3 objPos = hit3D.transform.position;
-                if (Vector3.Distance(camPos, objPos) < collectable.interactionDistance) {
-                    collectable.grabbed = true;
-                    scoreCounter.score++;
+                if (Vector3.Distance(camPos, objPos) < spawner.interactionDistance) {
+                    if (!collectable.grabbed) {
+                        collectable.grabbed = true;
+                        scoreCounter.score++;
+                    }
                 }
             }
         }
