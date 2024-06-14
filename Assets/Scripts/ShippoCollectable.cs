@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestLocationCapsule : MonoBehaviour {
+public class ShippoCollectable : MonoBehaviour {
 
     public LocationData locationData;
     public GeoConverter converter;
@@ -13,7 +13,6 @@ public class TestLocationCapsule : MonoBehaviour {
 
     public Camera camera;
     public float interactionDistance;
-
     public Location location;
 
     public bool grabbed { get; set; } = false;
@@ -53,12 +52,14 @@ public class TestLocationCapsule : MonoBehaviour {
                 objectLocation = objectLocation - playerLocation;
                 transform.position = objectLocation + camera.transform.position;
 
-                if (Vector3.Distance(camera.transform.position, transform.position) < interactionDistance) {
-                    GetComponent<Renderer>().material.color = Color.cyan;
-                } else {
-                    GetComponent<Renderer>().material.color = Color.magenta;
-                }
+                
             }
+        }
+
+        if (Vector3.Distance(camera.transform.position, transform.position) < interactionDistance) {
+            GetComponent<Renderer>().material.color = Color.cyan;
+        } else {
+            GetComponent<Renderer>().material.color = Color.magenta;
         }
     }
 

@@ -11,6 +11,7 @@ public class HippoCollector : MonoBehaviour {
     public XRRayInteractor raycastInteractor;
 
     public ScoreCounter scoreCounter;
+    public Camera camera;
 
     void Start() {
         InputActionProperty tapAction = controller.tapStartPositionAction;
@@ -26,8 +27,13 @@ public class HippoCollector : MonoBehaviour {
         RaycastHit hit3D;
         if (raycastInteractor.TryGetCurrent3DRaycastHit(out hit3D)) {
             if (hit3D.transform.gameObject.CompareTag("ShippoTheHippo")) {
-                scoreCounter.score++;
-                hit3D.transform.gameObject.GetComponent<TestLocationCapsule>().grabbed = true;
+                ShippoCollectable collectable = hit3D.transform.gameObject.GetComponent<ShippoCollectable>();
+                Vector3 camPos = camera.transform.position;
+                Vector3 objPos = hit3D.transform.position;
+                if (Vector3.Distance(camPos, objPos) < collectable.interactionDistance) {
+                    collectable.grabbed = true;
+                    scoreCounter.score++;
+                }
             }
         }
     }
