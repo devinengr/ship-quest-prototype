@@ -19,7 +19,6 @@ public class Refresher : MonoBehaviour {
         GUILayout.Label("Compass: " + compassData.lastAvg);
         GUILayout.Label("Gyro: " + gyroData.currentGyro);
         GUILayout.Label("Gyro Yaw: " + gyroData.yaw);
-        GUILayout.Label("Origin Rotation: " + compassData.originRotatedAmount + " deg");
         GUILayout.Label("Latitude: " + locationData.currentLocation.latitude);
         GUILayout.Label("Longitude: " + locationData.currentLocation.longitude);
         GUILayout.Label("Altitude: " + locationData.currentLocation.altitude

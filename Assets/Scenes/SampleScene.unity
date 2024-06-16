@@ -235,6 +235,37 @@ Transform:
   - {fileID: 758696979}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &562380513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562380514}
+  m_Layer: 0
+  m_Name: Camera Location Copy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &562380514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562380513}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 979657320}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &583615599
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,8 +317,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85d821a00a2c4440bcb4df3899935bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCompassInitChecks: 30
+  compassAverageCount: 30
+  smoothingSpeed: 0.02
   worldOrigin: {fileID: 62801708}
+  mainCamera: {fileID: 1774339251}
+  cameraLocCopy: {fileID: 562380513}
+  shippoSpawner: {fileID: 1844747935}
 --- !u!4 &583615602
 Transform:
   m_ObjectHideFlags: 0
@@ -701,6 +736,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1774339246}
+  - {fileID: 562380514}
   m_Father: {fileID: 62801711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1137933720
@@ -1338,13 +1374,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774339245}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 1, z: -2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 979657320}
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1774339247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1682,6 +1718,7 @@ MonoBehaviour:
   locationData: {fileID: 583615600}
   interactionDistance: 50
   UIShipBall: {fileID: 1137933720}
+  cameraLocCopy: {fileID: 562380513}
 --- !u!4 &1844747936
 Transform:
   m_ObjectHideFlags: 0

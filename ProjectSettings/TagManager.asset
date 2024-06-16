@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ShippoTheHippo
+  - ShippoLabel
   layers:
   - Default
   - TransparentFX

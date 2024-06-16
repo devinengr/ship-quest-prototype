@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 public class CompassData : MonoBehaviour {
 
-    [Range(5, 30)]
-    public int maxCompassInitChecks;
+    [Range(5, 90)]
+    public int compassAverageCount;
+    [Range(0.01f, 1f)]
+    public float smoothingSpeed;
 
     public GameObject worldOrigin;
+    public Camera mainCamera;
+    public GameObject cameraLocCopy;
+    public ShippoSpawner shippoSpawner;
 
     private int compassIter = 0;
     private float[] lastCompassReads;
@@ -20,19 +26,13 @@ public class CompassData : MonoBehaviour {
     private float lastAdjustedReading = 0;
     public float lastAvg { get; set; } = 0;
 
-    private bool firstAvgObtained = false;
-    private bool secondAvgObtained = false;
-
-    private bool originAnchored = false;
-    public float originRotatedAmount { get; set; } = 0;
-
     void Start() {
         // Enable compass
         Input.gyro.enabled = true;
         Input.compass.enabled = true;
 
         // Initialize
-        lastCompassReads = new float[maxCompassInitChecks];
+        lastCompassReads = new float[compassAverageCount];
     }
 
     void Update() {
@@ -51,34 +51,16 @@ public class CompassData : MonoBehaviour {
         if (compassStarted) {
             UpdateCompassList();
             UpdateCompassAverage();
-            AnchorSessionOrigin();
         }
 
-        // todo temp
-        Vector3 pos = worldOrigin.transform.position;
-        Debug.LogFormat("World origin: {0}, {1}, {2}", pos.x, pos.y, pos.z);
-        // end todo temp
-    }
+        // todo move to new script dedicated for cameraLocCopy
+        cameraLocCopy.transform.position = mainCamera.transform.position;
 
-    public void AnchorSessionOrigin() {
-        // Rotation of the parent transform (AR Session Origin) will rotate the
-        // camera successfully. Call it once after the averages come in.
-        // It will anchor the "origin camera"
-        // to the correct position, which anchors all airports and airplanes to
-        // the correct world orientation position. Only do this once.
-        //
-        // The compass may need a small amount of time to initialize. Wait until
-        // the last compass reading is not the default value.
+        float camRotYRaw = mainCamera.transform.rotation.eulerAngles.y;
+        Quaternion camRotAboutY = Quaternion.Euler(0f, camRotYRaw, 0f);
 
-        if (!originAnchored && secondAvgObtained) {
-            worldOrigin.transform.rotation = Quaternion.Euler(new Vector3(0f, lastAvg, 0f));
-            originAnchored = true;
-            originRotatedAmount = lastAvg;
-
-            for (int i = 0; i < lastCompassReads.Length; i++) {
-                Debug.Log("value: " + lastCompassReads[i]);
-            }
-        }
+        Quaternion targetRotation = camRotAboutY * Quaternion.Euler(0f, -lastAvg, 0f);
+        cameraLocCopy.transform.rotation = Quaternion.Slerp(cameraLocCopy.transform.rotation, targetRotation, smoothingSpeed);
     }
 
     private void UpdateCompassList() {
@@ -89,12 +71,8 @@ public class CompassData : MonoBehaviour {
         compassIter += 1;
         // If compassIter is too large, reset it.
         // Wait until after the second pass before being confident about the average's accuracy.
-        if (compassIter >= maxCompassInitChecks) {
+        if (compassIter >= compassAverageCount) {
             compassIter = 0;
-            if (firstAvgObtained) {
-                secondAvgObtained = true;
-            }
-            firstAvgObtained = true;
         }
     }
 

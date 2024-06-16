@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class ShippoSpawner : MonoBehaviour {
@@ -13,9 +16,11 @@ public class ShippoSpawner : MonoBehaviour {
     public float interactionDistance;
     public GameObject UIShipBall;
 
+    public GameObject cameraLocCopy;
+
+    public Dictionary<Location, GameObject> shippoMap { get; set; }
     private bool grabbedLocation = false;
     private Location lastPlayerLocation;
-    private Dictionary<Location, GameObject> shippoMap;
     private float t;
 
     void Start() {
@@ -26,8 +31,21 @@ public class ShippoSpawner : MonoBehaviour {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = converter.GeoToCartesian(loc.longitude, loc.altitude, loc.latitude);
             shippo.transform.position = pos;
+            shippo.transform.SetParent(cameraLocCopy.transform);
             shippoMap.Add(loc, shippo);
+            NameShippoLabel(shippo, loc.name);
         }
+    }
+
+    void NameShippoLabel(GameObject shippo, string name) {
+        GameObject child = shippo.transform.GetChild(0).gameObject;
+        child.GetComponent<TMP_Text>().text = name;
+    }
+
+    void MakeShippoLabelFaceCamera(GameObject shippo) {
+        GameObject child = shippo.transform.GetChild(0).gameObject;
+        child.transform.LookAt(mainCamera.transform);
+        child.transform.Rotate(new Vector3(0, 180, 0));
     }
 
     void Update() {
@@ -52,8 +70,14 @@ public class ShippoSpawner : MonoBehaviour {
                 }
             }
         }
-        foreach (Location loc in locations) {
-            GameObject shippo = shippoMap[loc];
+        // loop through all Shippos. if any need to be removed, queue them
+        // for deletion after all Shippos have been iterated through
+        List<Location> toRemove = new List<Location>();
+        foreach (KeyValuePair<Location, GameObject> pair in shippoMap) {
+            Location loc = pair.Key;
+            GameObject shippo = pair.Value;
+            // make the label face the main camera
+            MakeShippoLabelFaceCamera(shippo);
             // change color based on distance
             if (Vector3.Distance(mainCamera.transform.position, shippo.transform.position) < interactionDistance) {
                 shippo.GetComponent<Renderer>().material.color = Color.cyan;
@@ -64,12 +88,16 @@ public class ShippoSpawner : MonoBehaviour {
             if (shippo.GetComponent<ShippoCollectable>().grabbed) {
                 shippo.transform.position = Vector3.Lerp(shippo.transform.position, UIShipBall.transform.position, t);
                 shippo.transform.localScale = Vector3.Lerp(shippo.transform.localScale, UIShipBall.transform.localScale, t);
-                t += 0.2f * Time.deltaTime;
+                t += 0.5f * Time.deltaTime;
                 if (Vector3.Distance(shippo.transform.position, UIShipBall.transform.position) < 0.1f) {
-                    shippoMap.Remove(loc);
-                    Destroy(shippo.transform.gameObject);
+                    toRemove.Add(loc);
                 }
             }
+        }
+        // delete queued Shippos
+        foreach (Location loc in toRemove) {
+            Destroy(shippoMap[loc].transform.gameObject);
+            shippoMap.Remove(loc);
         }
     }
 
