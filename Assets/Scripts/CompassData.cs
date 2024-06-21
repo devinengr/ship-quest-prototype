@@ -41,7 +41,6 @@ public class CompassData : MonoBehaviour {
         // phone north, the compass wouldn't return exactly 0, so check for when it's not 0.
         if (!compassStarted) {
             float reading = Input.compass.trueHeading;
-            Debug.Log(reading);
             // Floating-point comparison includes delta due to possible inaccuracy
             if (reading - 0f >= 0.000001) {
                 compassStarted = true;

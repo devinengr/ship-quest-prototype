@@ -9,7 +9,6 @@ public class ShippoSpawner : MonoBehaviour {
 
     [Tooltip("Locations of notable locations on campus.")]
     public List<Location> locations;
-    public GeoConverter converter;
     public GameObject shippoCollectablePrefab;
     public GameObject mainCamera;
     public LocationData locationData;
@@ -24,13 +23,21 @@ public class ShippoSpawner : MonoBehaviour {
     private float t;
 
     void Start() {
+        // initialize the origin location
+        GPSEncoder.SetLocalOrigin(new Vector2(
+            locationData.currentLocation.latitude,
+            locationData.currentLocation.longitude));
+        // initialize variables
         lastPlayerLocation = new Location(0, 0, 0);
         shippoMap = new Dictionary<Location, GameObject>();
         // spawn all Shippos and set their locations
         foreach (Location loc in locations) {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
-            Vector3 pos = converter.GeoToCartesian(loc.longitude, loc.altitude, loc.latitude);
+            Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
+            // pos.Scale(new Vector3(0.0001f, 0.0001f, 0.0001f));
+            Debug.Log(loc.name + " " + pos);
             shippo.transform.position = pos;
+            Debug.Log(loc.name + " " + shippo.transform.position);
             shippo.transform.SetParent(cameraLocCopy.transform);
             shippoMap.Add(loc, shippo);
             NameShippoLabel(shippo, loc.name);
@@ -57,16 +64,14 @@ public class ShippoSpawner : MonoBehaviour {
             // update last player location and get Unity coordinates for it
             lastPlayerLocation.latitude = lat;
             lastPlayerLocation.longitude = lon;
-            Vector3 playerLocation = converter.GeoToCartesian(lon, 0, lat);
+            GPSEncoder.SetLocalOrigin(new Vector2(lat, lon));
             // adjust all Shippo positions based on new player location
             foreach (Location loc in locations) {
                 GameObject shippo = shippoMap[loc];
                 // don't readjust the location of the Shippo if it's already grabbed
                 // because it's currently moving to the ShipBall.
                 if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
-                    Vector3 shippoLoc = converter.GeoToCartesian(loc.longitude, 0, loc.latitude);
-                    shippoLoc = shippoLoc - playerLocation;
-                    shippo.transform.position = shippoLoc + mainCamera.transform.position;
+                    shippo.transform.position = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
                 }
             }
         }
