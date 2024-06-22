@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 583615600}
   - component: {fileID: 583615604}
   - component: {fileID: 583615605}
+  - component: {fileID: 583615606}
   m_Layer: 0
   m_Name: Device Data
   m_TagString: Untagged
@@ -381,7 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   compassAverageCount: 30
-  degreeRangeForStability: 10
+  degreeRangeForStability: 5
   worldOrigin: {fileID: 62801708}
   mainCamera: {fileID: 1774339251}
   shippoSpawner: {fileID: 1844747935}
@@ -428,6 +429,18 @@ MonoBehaviour:
   locationData: {fileID: 583615600}
   gyroData: {fileID: 583615604}
   sessionAR: {fileID: 1882095050}
+--- !u!114 &583615606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583615599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aab5f886f74c948a38dc60975acf1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
