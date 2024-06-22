@@ -22,7 +22,9 @@ public class CompassCalibrator : MonoBehaviour {
     void Update() {
         currentTime = Environment.TickCount / TimeSpan.TicksPerSecond;
         elapsedTime = currentTime - startTime;
-        // todo more with time
+        // todo do more with timing stuff
+        // specifically, make the rotation of this object transform
+        // less inclined to rotate as more time passes.
 
         transform.position = mainCamera.transform.position;
 
@@ -31,6 +33,6 @@ public class CompassCalibrator : MonoBehaviour {
 
         Quaternion targetRotation = camRotAboutY * Quaternion.Euler(0f, -compassData.lastAvg, 0f);
         transform.rotation = targetRotation;
-        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smoothingSpeed);
+
     }
 }

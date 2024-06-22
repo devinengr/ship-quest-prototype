@@ -4,16 +4,36 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class Refresher : MonoBehaviour {
 
     public CompassData compassData;
     public LocationData locationData;
     public GyroData gyroData;
+    public ARSession sessionAR;
+
+    private bool sessionStateFailedOnce;
+    private bool sessionStateWaitingForFailure;
+    private bool sessionResetting;
 
     void OnGUI() {
         GUI.skin.label.fontSize = Screen.width / 40;
         float altitudeInFeet = locationData.currentLocation.altitude * 3.28084f;
+
+        if (sessionAR.subsystem.trackingState == TrackingState.Tracking) {
+            sessionStateWaitingForFailure = true;
+            sessionResetting = false;
+        }
+        if (sessionStateWaitingForFailure && sessionAR.subsystem.trackingState != TrackingState.Tracking) {
+            sessionStateFailedOnce = true;
+            if (!sessionResetting) {
+                sessionResetting = true;
+                sessionAR.Reset();
+            }
+        }
 
         GUILayout.Label("Location Service: " + locationData.locationServiceStatus);
         GUILayout.Label("Compass: " + compassData.lastAvg);
@@ -23,6 +43,9 @@ public class Refresher : MonoBehaviour {
         GUILayout.Label("Longitude: " + locationData.currentLocation.longitude);
         GUILayout.Label("Altitude: " + locationData.currentLocation.altitude
                             + " m (" + altitudeInFeet + " ft)");
+
+        GUILayout.Label("AR Tracking Status: " + sessionAR.subsystem.trackingState);
+        GUILayout.Label("AR Tracking Failed Once: " + sessionStateFailedOnce);
     }
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
@@ -19,11 +20,17 @@ public class CompassData : MonoBehaviour {
     public Camera mainCamera;
     public ShippoSpawner shippoSpawner;
 
+    private bool compassStarted = false;
+
     private int compassIter = 0;
     private float[] lastCompassReads;
-    private bool compassStarted = false;
     private float lastAdjustedReading = 0;
-    public float lastAvg { get; set; } = 0;
+
+    private int avgIter = 0;
+    private float[] lastCompassAverages;
+    public float lastAvg { get; private set; } = 0;
+
+    public bool stable { get; private set; } = false;
 
     void Start() {
         // Enable compass
@@ -32,6 +39,7 @@ public class CompassData : MonoBehaviour {
 
         // Initialize
         lastCompassReads = new float[compassAverageCount];
+        lastCompassAverages = new float[compassAverageCount];
     }
 
     void Update() {
@@ -49,29 +57,50 @@ public class CompassData : MonoBehaviour {
         if (compassStarted) {
             UpdateCompassList();
             UpdateCompassAverage();
+            UpdateAverageList();
+            DetermineStability();
         }
     }
 
+    private void DetermineStability() {
+        // turning the camera means the compass average will lag behind for a second, so
+        // combining the two will cause hippos to be placed incorrectly. to counter this,
+        // wait for the duration that the compass is updated, and as long as all averages
+        // are similar by up to 5 degrees, update it. this works because the averages are
+        // typically very smooth.
+        float min = Mathf.Min(lastCompassAverages);
+        float max = Mathf.Max(lastCompassAverages);
+        stable = max - min <= 5;
+    }
+
     private void UpdateCompassList() {
-        // Update the compass readings list
+        // update the compass readings list
         float newReading = Input.compass.trueHeading;
         lastAdjustedReading = CompassLogic.AdjustNewReading(lastAdjustedReading, newReading);
         lastCompassReads[compassIter] = lastAdjustedReading;
         compassIter += 1;
-        // If compassIter is too large, reset it.
-        // Wait until after the second pass before being confident about the average's accuracy.
+        // if compassIter is too large, reset it.
         if (compassIter >= compassAverageCount) {
             compassIter = 0;
         }
     }
 
     private void UpdateCompassAverage() {
-        // Get the average compass reading
+        // get the average compass reading
         float sum = 0;
         for (int i = 0; i < lastCompassReads.Length; i++) {
             sum += lastCompassReads[i];
         }
         lastAvg = sum / lastCompassReads.Length % 360;
+    }
+
+    private void UpdateAverageList() {
+        lastCompassAverages[avgIter] = lastAvg;
+        avgIter += 1;
+        // if avgIter is too large, reset it.
+        if (avgIter >= compassAverageCount) {
+            avgIter = 0;
+        }
     }
 
 }

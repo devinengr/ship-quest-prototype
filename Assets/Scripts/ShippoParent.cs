@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class ShippoParent : MonoBehaviour {
 
     public GameObject compassCalibrator;
     public Camera mainCamera;
+    public CompassData compassData;
 
     [Tooltip("How many seconds before readjusting object positions.")]
     public long recalibrationInterval;
@@ -52,8 +55,11 @@ public class ShippoParent : MonoBehaviour {
         // of the hippos. this will readjust the position of the hippos
         // according to new compass data.
         if (elapsedTime >= recalibrationInterval) {
-            startTime = currentTime;
-            transform.rotation = compassCalibrator.transform.rotation;
+            // check if the compass average is stable before readjusting.
+            if (compassData.stable) {
+                startTime = currentTime;
+                transform.rotation = compassCalibrator.transform.rotation;
+            }
         }
     }
 

@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 public class ShippoSpawner : MonoBehaviour {
 
