@@ -328,7 +328,8 @@ MonoBehaviour:
   compassCalibrator: {fileID: 456361253}
   mainCamera: {fileID: 1774339251}
   compassData: {fileID: 583615601}
-  recalibrationInterval: 3000
+  firstCalibrationTime: 1000
+  recalibrationInterval: 10000
 --- !u!1 &583615599
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +429,7 @@ MonoBehaviour:
   locationData: {fileID: 583615600}
   gyroData: {fileID: 583615604}
   sessionAR: {fileID: 1882095050}
+  shippoParent: {fileID: 562380515}
 --- !u!114 &583615606
 MonoBehaviour:
   m_ObjectHideFlags: 0

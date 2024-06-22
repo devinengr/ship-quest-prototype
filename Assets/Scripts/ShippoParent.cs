@@ -13,8 +13,11 @@ public class ShippoParent : MonoBehaviour {
     public Camera mainCamera;
     public CompassData compassData;
 
+    [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
+    public long firstCalibrationTime;
     [Tooltip("Number of milliseconds before readjusting object positions.")]
     public long recalibrationInterval;
+
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
     private bool recalibrating = false;
@@ -23,6 +26,9 @@ public class ShippoParent : MonoBehaviour {
     private long startTime;
     private long currentTime;
     private long elapsedTime;
+
+    public int CalibrationCount { get { return calibrationCount; } }
+    public long CalibrationTime { get { return elapsedTime; } }
 
     void Start() {
         startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
@@ -45,8 +51,8 @@ public class ShippoParent : MonoBehaviour {
         }
     }
 
-    private float NormalizeElapsedTime() {
-        return (float) elapsedTime / recalibrationInterval;
+    private float NormalizeElapsedTime(long recalibrationTime) {
+        return (float) elapsedTime / recalibrationTime;
     }
 
     void LateUpdate() {
@@ -63,7 +69,7 @@ public class ShippoParent : MonoBehaviour {
         // after a number of seconds, readjust the rotation of the parent
         // of the hippos. this will readjust the position of the hippos
         // according to new compass data.
-        if (elapsedTime >= recalibrationInterval) {
+        if (elapsedTime >= recalibrationInterval || calibrationCount == 0) {
             // check if the compass average is stable before readjusting.
             if (compassData.stable) {
                 startTime = currentTime;
@@ -75,21 +81,18 @@ public class ShippoParent : MonoBehaviour {
         }
 
         if (recalibrating) {
-            // for each recalibration, rotate the object less, as we can likely be more
-            // confident that its rotation is more accurate.
-            // formula produces these values:
-            // 5 => 0
-            // 4 => 0.25
-            // 3 => 0.5
-            // 2 => 0.75
-            // 1 => 1
-            // so, by the 5th calibration, the object will no longer rotate.
-            float calibrationStrength = (float) (5 - calibrationCount) / 4;
-            Debug.Log(calibrationStrength);
+            // rotate the parent faster on the first pass. this allows
+            // subsequent rotations to be much slower to make them almost
+            // invisible to the user (without sacrificing the initial
+            // rotation).
+            long recalibrationTime = recalibrationInterval;
+            if (calibrationCount == 1) {
+                recalibrationTime = firstCalibrationTime;
+            }
             transform.rotation = Quaternion.Slerp(
                 recalibrationRotationInitial,
                 recalibrationRotationTarget,
-                NormalizeElapsedTime() * calibrationStrength);
+                NormalizeElapsedTime(recalibrationTime));
         }
     }
 
