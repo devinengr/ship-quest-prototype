@@ -13,8 +13,9 @@ public class CompassData : MonoBehaviour {
 
     [Range(5, 90)]
     public int compassAverageCount;
-    [Range(0.01f, 1f)]
-    public float smoothingSpeed;
+
+    [Tooltip("The number of degrees that the last compass averages can differ by to be considered stable.")]
+    public int degreeRangeForStability;
 
     public GameObject worldOrigin;
     public Camera mainCamera;
@@ -66,11 +67,11 @@ public class CompassData : MonoBehaviour {
         // turning the camera means the compass average will lag behind for a second, so
         // combining the two will cause hippos to be placed incorrectly. to counter this,
         // wait for the duration that the compass is updated, and as long as all averages
-        // are similar by up to 5 degrees, update it. this works because the averages are
-        // typically very smooth.
+        // are similar by up to a numbre of degrees, update it. this works because the
+        // averages are typically very smooth.
         float min = Mathf.Min(lastCompassAverages);
         float max = Mathf.Max(lastCompassAverages);
-        stable = max - min <= 5;
+        stable = max - min <= degreeRangeForStability;
     }
 
     private void UpdateCompassList() {

@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   compassAverageCount: 30
-  smoothingSpeed: 0.02
+  degreeRangeForStability: 10
   worldOrigin: {fileID: 62801708}
   mainCamera: {fileID: 1774339251}
   shippoSpawner: {fileID: 1844747935}
