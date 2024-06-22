@@ -14,10 +14,11 @@ public class ShippoParent : MonoBehaviour {
     public CompassData compassData;
 
     [Tooltip("Number of milliseconds before readjusting object positions.")]
-    public float recalibrationInterval;
+    public long recalibrationInterval;
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
     private bool recalibrating = false;
+    private int calibrationCount = 0;
 
     private long startTime;
     private long currentTime;
@@ -45,9 +46,7 @@ public class ShippoParent : MonoBehaviour {
     }
 
     private float NormalizeElapsedTime() {
-        Debug.Log(elapsedTime);
-        Debug.Log(elapsedTime / recalibrationInterval);
-        return elapsedTime / recalibrationInterval;
+        return (float) elapsedTime / recalibrationInterval;
     }
 
     void LateUpdate() {
@@ -71,14 +70,26 @@ public class ShippoParent : MonoBehaviour {
                 recalibrating = true;
                 recalibrationRotationInitial = transform.rotation;
                 recalibrationRotationTarget = compassCalibrator.transform.rotation;
+                calibrationCount += 1;
             }
         }
 
         if (recalibrating) {
+            // for each recalibration, rotate the object less, as we can likely be more
+            // confident that its rotation is more accurate.
+            // formula produces these values:
+            // 5 => 0
+            // 4 => 0.25
+            // 3 => 0.5
+            // 2 => 0.75
+            // 1 => 1
+            // so, by the 5th calibration, the object will no longer rotate.
+            float calibrationStrength = (float) (5 - calibrationCount) / 4;
+            Debug.Log(calibrationStrength);
             transform.rotation = Quaternion.Slerp(
                 recalibrationRotationInitial,
                 recalibrationRotationTarget,
-                NormalizeElapsedTime());
+                NormalizeElapsedTime() * calibrationStrength);
         }
     }
 
