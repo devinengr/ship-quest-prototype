@@ -17,7 +17,6 @@ public class CompassData : MonoBehaviour {
 
     public GameObject worldOrigin;
     public Camera mainCamera;
-    public GameObject cameraLocCopy;
     public ShippoSpawner shippoSpawner;
 
     private int compassIter = 0;
@@ -51,15 +50,6 @@ public class CompassData : MonoBehaviour {
             UpdateCompassList();
             UpdateCompassAverage();
         }
-
-        // todo move to new script dedicated for cameraLocCopy
-        cameraLocCopy.transform.position = mainCamera.transform.position;
-
-        float camRotYRaw = mainCamera.transform.rotation.eulerAngles.y;
-        Quaternion camRotAboutY = Quaternion.Euler(0f, camRotYRaw, 0f);
-
-        Quaternion targetRotation = camRotAboutY * Quaternion.Euler(0f, -lastAvg, 0f);
-        cameraLocCopy.transform.rotation = Quaternion.Slerp(cameraLocCopy.transform.rotation, targetRotation, smoothingSpeed);
     }
 
     private void UpdateCompassList() {

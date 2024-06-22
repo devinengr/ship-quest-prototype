@@ -235,6 +235,53 @@ Transform:
   - {fileID: 758696979}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &456361253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 456361254}
+  - component: {fileID: 456361255}
+  m_Layer: 0
+  m_Name: Compass Calibrator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &456361254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456361253}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 979657320}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &456361255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456361253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec0bd8abfe3abe4eb89926f3b4c6dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 1774339251}
+  compassData: {fileID: 583615601}
+  secondsToHalfAdjustmentStrength: 5
 --- !u!1 &562380513
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,8 +291,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 562380514}
+  - component: {fileID: 562380515}
   m_Layer: 0
-  m_Name: Camera Location Copy
+  m_Name: Shippo Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,6 +314,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 979657320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &562380515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562380513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8247e268234da174e86799ec88be2c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compassCalibrator: {fileID: 456361253}
+  recalibrationInterval: 5
 --- !u!1 &583615599
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +382,6 @@ MonoBehaviour:
   smoothingSpeed: 0.02
   worldOrigin: {fileID: 62801708}
   mainCamera: {fileID: 1774339251}
-  cameraLocCopy: {fileID: 562380513}
   shippoSpawner: {fileID: 1844747935}
 --- !u!4 &583615602
 Transform:
@@ -724,6 +785,7 @@ Transform:
   m_Children:
   - {fileID: 1774339246}
   - {fileID: 562380514}
+  - {fileID: 456361254}
   m_Father: {fileID: 62801711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1137933720
