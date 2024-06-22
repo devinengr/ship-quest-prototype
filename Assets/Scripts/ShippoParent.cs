@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -12,18 +13,21 @@ public class ShippoParent : MonoBehaviour {
     public Camera mainCamera;
     public CompassData compassData;
 
-    [Tooltip("How many seconds before readjusting object positions.")]
-    public long recalibrationInterval;
+    [Tooltip("Number of milliseconds before readjusting object positions.")]
+    public float recalibrationInterval;
+    private Quaternion recalibrationRotationInitial;
+    private Quaternion recalibrationRotationTarget;
+    private bool recalibrating = false;
 
     private long startTime;
     private long currentTime;
     private long elapsedTime;
 
     void Start() {
-        startTime = DateTime.Now.Ticks / TimeSpan.TicksPerSecond;
+        startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 
-    void DetachHippos() {
+    private void DetachHippos() {
         List<GameObject> children = new List<GameObject>();
         transform.gameObject.GetChildGameObjects(children);
         foreach (GameObject child in children) {
@@ -33,15 +37,21 @@ public class ShippoParent : MonoBehaviour {
         }
     }
 
-    void ReattachHippos() {
+    private void ReattachHippos() {
         GameObject[] hippos = GameObject.FindGameObjectsWithTag("ShippoTheHippo");
         foreach (GameObject hippo in hippos) {
             hippo.transform.SetParent(transform);
         }
     }
 
+    private float NormalizeElapsedTime() {
+        Debug.Log(elapsedTime);
+        Debug.Log(elapsedTime / recalibrationInterval);
+        return elapsedTime / recalibrationInterval;
+    }
+
     void LateUpdate() {
-        currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerSecond;
+        currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         elapsedTime = currentTime - startTime;
         
         // temporarily detach the hippos while adjusting the position.
@@ -58,8 +68,17 @@ public class ShippoParent : MonoBehaviour {
             // check if the compass average is stable before readjusting.
             if (compassData.stable) {
                 startTime = currentTime;
-                transform.rotation = compassCalibrator.transform.rotation;
+                recalibrating = true;
+                recalibrationRotationInitial = transform.rotation;
+                recalibrationRotationTarget = compassCalibrator.transform.rotation;
             }
+        }
+
+        if (recalibrating) {
+            transform.rotation = Quaternion.Slerp(
+                recalibrationRotationInitial,
+                recalibrationRotationTarget,
+                NormalizeElapsedTime());
         }
     }
 

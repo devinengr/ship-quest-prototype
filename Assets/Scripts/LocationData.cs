@@ -65,15 +65,16 @@ public class LocationData : MonoBehaviour {
     }
 
     void GetLocation() {
-        if (Input.location.status != LocationServiceStatus.Running) {
-            Debug.LogFormat("Unable to fetch device location with status {0}.", Input.location.status);
-            return;
+        if (!Application.isEditor) {
+            if (Input.location.status != LocationServiceStatus.Running) {
+                Debug.LogFormat("Unable to fetch device location with status {0}.", Input.location.status);
+                return;
+            }
+            currentLocation = new Location(
+                Input.location.lastData.latitude,
+                Input.location.lastData.longitude,
+                Input.location.lastData.altitude);
         }
-        currentLocation = new Location(
-            Input.location.lastData.latitude,
-            Input.location.lastData.longitude,
-            Input.location.lastData.altitude
-        );
     }
 
 }

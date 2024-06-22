@@ -35,10 +35,7 @@ public class ShippoSpawner : MonoBehaviour {
         foreach (Location loc in locations) {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
-            // pos.Scale(new Vector3(0.0001f, 0.0001f, 0.0001f));
-            Debug.Log(loc.name + " " + pos);
             shippo.transform.position = pos;
-            Debug.Log(loc.name + " " + shippo.transform.position);
             shippo.transform.SetParent(cameraLocCopy.transform);
             shippoMap.Add(loc, shippo);
             NameShippoLabel(shippo, loc.name);

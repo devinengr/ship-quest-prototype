@@ -23,6 +23,9 @@ public class Refresher : MonoBehaviour {
         GUI.skin.label.fontSize = Screen.width / 40;
         float altitudeInFeet = locationData.currentLocation.altitude * 3.28084f;
 
+        // the app is not traacking when started. if arSession.Reset() is called
+        // at this point, the app may crash or be stuck calling Reset() every frame.
+        // wait until it reaches the tracking state and then listen for lost tracking.
         if (sessionAR.subsystem.trackingState == TrackingState.Tracking) {
             sessionStateWaitingForFailure = true;
             sessionResetting = false;
