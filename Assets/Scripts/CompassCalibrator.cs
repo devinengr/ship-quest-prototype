@@ -24,10 +24,6 @@ public class CompassCalibrator : MonoBehaviour {
         elapsedTime = currentTime - startTime;
         // todo more with time
 
-        // temporarily detach the cubes while adjusting the position.
-        // this will allow the camera to get closer to the cubes as the
-        // player moves toward them.
-        // todo implement
         transform.position = mainCamera.transform.position;
 
         float camRotYRaw = mainCamera.transform.rotation.eulerAngles.y;
