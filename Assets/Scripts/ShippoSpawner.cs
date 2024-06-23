@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class ShippoSpawner : MonoBehaviour {
     public float interactionDistance;
     public GameObject UIShipBall;
 
-    public GameObject cameraLocCopy;
+    public GameObject shippoParent;
 
     public Dictionary<Location, GameObject> shippoMap { get; set; }
     private bool grabbedLocation = false;
@@ -36,7 +37,7 @@ public class ShippoSpawner : MonoBehaviour {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
             shippo.transform.position = pos;
-            shippo.transform.SetParent(cameraLocCopy.transform);
+            shippo.transform.SetParent(shippoParent.transform);
             shippoMap.Add(loc, shippo);
             NameShippoLabel(shippo, loc.name);
         }
@@ -55,7 +56,7 @@ public class ShippoSpawner : MonoBehaviour {
 
     void Update() {
         // check if the player moved (or if the app just started)
-        if (!grabbedLocation || !lastPlayerLocation.Matches(locationData.currentLocation)) {
+        if (!grabbedLocation || !LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation)) {
             grabbedLocation = true;
             float lat = locationData.currentLocation.latitude;
             float lon = locationData.currentLocation.longitude;

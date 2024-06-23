@@ -1783,7 +1783,7 @@ MonoBehaviour:
   locationData: {fileID: 583615600}
   interactionDistance: 50
   UIShipBall: {fileID: 1137933720}
-  cameraLocCopy: {fileID: 562380513}
+  shippoParent: {fileID: 562380513}
 --- !u!4 &1844747936
 Transform:
   m_ObjectHideFlags: 0

@@ -5,38 +5,6 @@ using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
-[Serializable]
-public struct Location {
-
-    public string name;
-    public float latitude;
-    public float longitude;
-    public float altitude;
-
-    public Location(string name, float latitude, float longitude, float altitude) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.altitude = altitude;
-    }
-
-    public Location(float latitude, float longitude, float altitude)
-                    : this("Unspecified", latitude, longitude, altitude) {}
-
-    public bool Matches(Location other) {
-        float delta = 0.00001f;
-        if (latitude - other.latitude <= delta) {
-            if (longitude - other.longitude <= delta) {
-                if (altitude - other.altitude <= delta) {
-                    return true;
-                }
-            }
-        } 
-        return false;
-    }
-
-}
-
 public class LocationData : MonoBehaviour {
 
     [Tooltip("How often to fetch location data from the device (in milliseconds).")]
@@ -45,8 +13,8 @@ public class LocationData : MonoBehaviour {
     [Tooltip("The location used if location fetching fails.")]
     public Location defaultLocation;
 
-    public Location currentLocation { get; set; }
-    public LocationServiceStatus locationServiceStatus { get; set; }
+    public Location currentLocation { get; private set; }
+    public LocationServiceStatus locationServiceStatus { get; private set; }
 
     void Start() {
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
