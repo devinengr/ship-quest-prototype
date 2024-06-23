@@ -6,9 +6,6 @@ using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
 public class LocationData : MonoBehaviour {
-
-    [Tooltip("How often to fetch location data from the device (in milliseconds).")]
-    public int updateFrequency;
     
     [Tooltip("The location used if location fetching fails.")]
     public Location defaultLocation;

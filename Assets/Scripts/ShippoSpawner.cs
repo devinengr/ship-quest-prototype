@@ -20,6 +20,9 @@ public class ShippoSpawner : MonoBehaviour {
 
     public Dictionary<Location, GameObject> shippoMap { get; set; }
     private Location lastPlayerLocation;
+
+    // todo this value is never reset and doesn't account for when multiple cubes
+    // are grabbed at the same time
     private float t;
 
     void Start() {

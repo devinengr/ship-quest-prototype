@@ -17,10 +17,6 @@ public class CompassData : MonoBehaviour {
     [Tooltip("The number of degrees that the last compass averages can differ by to be considered stable.")]
     public int degreeRangeForStability;
 
-    public GameObject worldOrigin;
-    public Camera mainCamera;
-    public ShippoSpawner shippoSpawner;
-
     private bool compassStarted = false;
 
     private int compassIter = 0;
@@ -34,22 +30,22 @@ public class CompassData : MonoBehaviour {
     public bool stable { get; private set; } = false;
 
     void Start() {
-        // Enable compass
+        // enable compass
         Input.gyro.enabled = true;
         Input.compass.enabled = true;
 
-        // Initialize
+        // initialize
         lastCompassReads = new float[compassAverageCount];
         lastCompassAverages = new float[compassAverageCount];
     }
 
     void Update() {
-        // Wait for the compass to start returning valid values. Before it
-        // starts, it just returns 0. Even if the user precisely pointed their
+        // wait for the compass to start returning valid values. before it
+        // starts, it just returns 0. even if the user precisely pointed their
         // phone north, the compass wouldn't return exactly 0, so check for when it's not 0.
         if (!compassStarted) {
             float reading = Input.compass.trueHeading;
-            // Floating-point comparison includes delta due to possible inaccuracy
+            // floating-point comparison includes delta due to possible inaccuracy
             if (reading - 0f >= 0.000001) {
                 compassStarted = true;
             }

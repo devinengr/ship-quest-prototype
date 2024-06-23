@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d70c6bf6298434ea23290ccb3808d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateFrequency: 2000
   defaultLocation:
     name: Shippensburg University
     latitude: 40.06107
@@ -382,9 +381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   compassAverageCount: 30
   degreeRangeForStability: 5
-  worldOrigin: {fileID: 62801708}
-  mainCamera: {fileID: 1774339251}
-  shippoSpawner: {fileID: 1844747935}
 --- !u!4 &583615602
 Transform:
   m_ObjectHideFlags: 0
@@ -894,7 +890,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -100, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.08, y: 0.08, z: 0.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
