@@ -12,10 +12,8 @@ public class Refresher : MonoBehaviour {
 
     public CompassData compassData;
     public LocationData locationData;
-    public GyroData gyroData;
     public ARSession sessionAR;
     public ShippoParent shippoParent;
-    public Camera mainCamera;
 
     private bool sessionStateFailedOnce;
     private bool sessionStateWaitingForFailure;
@@ -42,8 +40,6 @@ public class Refresher : MonoBehaviour {
 
         GUILayout.Label("Location Service: " + locationData.locationServiceStatus);
         GUILayout.Label("Compass: " + compassData.lastAvg);
-        GUILayout.Label("Gyro: " + gyroData.currentGyro);
-        GUILayout.Label("Gyro Yaw: " + gyroData.yaw);
         GUILayout.Label("Latitude: " + locationData.currentLocation.latitude);
         GUILayout.Label("Longitude: " + locationData.currentLocation.longitude);
         GUILayout.Label("Altitude: " + locationData.currentLocation.altitude
@@ -52,7 +48,6 @@ public class Refresher : MonoBehaviour {
         GUILayout.Label("AR Tracking Failed Once: " + sessionStateFailedOnce);
         GUILayout.Label("Compass Calibration Count: " + shippoParent.CalibrationCount);
         GUILayout.Label("Compass Calibration Time: " + (float)shippoParent.CalibrationTime/1000 + " s");
-        GUILayout.Label("Camera Position: " + mainCamera.transform.position);
     }
 
 }

@@ -341,7 +341,6 @@ GameObject:
   - component: {fileID: 583615602}
   - component: {fileID: 583615601}
   - component: {fileID: 583615600}
-  - component: {fileID: 583615604}
   - component: {fileID: 583615605}
   - component: {fileID: 583615606}
   m_Layer: 0
@@ -401,18 +400,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &583615604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583615599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac00f68f0e4df324bb0a05f0a44d69ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &583615605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,10 +414,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   compassData: {fileID: 583615601}
   locationData: {fileID: 583615600}
-  gyroData: {fileID: 583615604}
   sessionAR: {fileID: 1882095050}
   shippoParent: {fileID: 562380515}
-  mainCamera: {fileID: 1774339251}
 --- !u!114 &583615606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,7 +599,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 848070346}
-  - component: {fileID: 848070345}
   - component: {fileID: 848070347}
   m_Layer: 0
   m_Name: Raycast Handler
@@ -623,21 +607,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &848070345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 848070344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f180108a0761254b87b121d3241b9a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  raycastInteractor: {fileID: 1436501088}
-  spawnObject: {fileID: 6680356418093796993, guid: 9d37eab8e56c91846be62420dd4ab34c, type: 3}
-  controller: {fileID: 1436501087}
 --- !u!4 &848070346
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,7 +1369,7 @@ MonoBehaviour:
   m_RotateSpeed: 180
   m_TranslateSpeed: 1
   m_AnchorRotateReferenceFrame: {fileID: 0}
-  m_AnchorRotationMode: 0
+  m_AnchorRotationMode: 1
   m_UIHoverEntered:
     m_PersistentCalls:
       m_Calls: []

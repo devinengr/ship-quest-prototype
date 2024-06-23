@@ -55,7 +55,6 @@ public class ShippoSpawner : MonoBehaviour {
     void Update() {
         // check if the player moved (or if the app just started)
         if (!LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation)) {
-            Debug.Log("Updating location data");
             float lat = locationData.currentLocation.latitude;
             float lon = locationData.currentLocation.longitude;
             // update last player location and get Unity coordinates for it
@@ -68,7 +67,6 @@ public class ShippoSpawner : MonoBehaviour {
                 // don't readjust the location of the Shippo if it's already grabbed
                 // because it's currently moving to the ShipBall.
                 if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
-                    Debug.Log("confused if running every frame");
                     shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
                 }
             }
