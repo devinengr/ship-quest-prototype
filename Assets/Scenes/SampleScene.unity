@@ -328,7 +328,7 @@ MonoBehaviour:
   compassCalibrator: {fileID: 456361253}
   mainCamera: {fileID: 1774339251}
   compassData: {fileID: 583615601}
-  firstCalibrationTime: 1000
+  firstCalibrationTime: 3000
   recalibrationInterval: 10000
 --- !u!1 &583615599
 GameObject:

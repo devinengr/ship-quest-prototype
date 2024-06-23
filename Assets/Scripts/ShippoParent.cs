@@ -20,7 +20,6 @@ public class ShippoParent : MonoBehaviour {
 
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
-    private bool recalibrating = false;
     private int calibrationCount = 0;
 
     private long startTime;
@@ -68,31 +67,33 @@ public class ShippoParent : MonoBehaviour {
 
         // after a number of seconds, readjust the rotation of the parent
         // of the hippos. this will readjust the position of the hippos
-        // according to new compass data.
-        if (elapsedTime >= recalibrationInterval || calibrationCount == 0) {
+        // according to new compass data. wait a few seconds before
+        // starting the first calibration to give the calibrator object
+        // time to rotate to the correct orientation.
+        if (elapsedTime >= recalibrationInterval || (calibrationCount == 0 && elapsedTime >= firstCalibrationTime)) {
             // check if the compass average is stable before readjusting.
             if (compassData.stable) {
                 startTime = currentTime;
-                recalibrating = true;
                 recalibrationRotationInitial = transform.rotation;
                 recalibrationRotationTarget = compassCalibrator.transform.rotation;
                 calibrationCount += 1;
             }
         }
 
-        if (recalibrating) {
+        if (calibrationCount >= 1) {
             // rotate the parent faster on the first pass. this allows
-            // subsequent rotations to be much slower to make them almost
-            // invisible to the user (without sacrificing the initial
+            // subsequent rotations to be much slower to make them less
+            // noticeable to the user (without sacrificing the initial
             // rotation).
-            long recalibrationTime = recalibrationInterval;
             if (calibrationCount == 1) {
-                recalibrationTime = firstCalibrationTime;
+                transform.rotation = recalibrationRotationTarget;
+            } else {
+                transform.rotation = Quaternion.Slerp(
+                    recalibrationRotationInitial,
+                    recalibrationRotationTarget,
+                    NormalizeElapsedTime(recalibrationInterval));
+
             }
-            transform.rotation = Quaternion.Slerp(
-                recalibrationRotationInitial,
-                recalibrationRotationTarget,
-                NormalizeElapsedTime(recalibrationTime));
         }
     }
 

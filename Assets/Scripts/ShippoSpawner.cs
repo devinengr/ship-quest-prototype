@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -36,7 +35,7 @@ public class ShippoSpawner : MonoBehaviour {
         foreach (Location loc in locations) {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
-            shippo.transform.position = pos;
+            shippo.transform.localPosition = pos;
             shippo.transform.SetParent(shippoParent.transform);
             shippoMap.Add(loc, shippo);
             NameShippoLabel(shippo, loc.name);
@@ -65,12 +64,12 @@ public class ShippoSpawner : MonoBehaviour {
             lastPlayerLocation.longitude = lon;
             GPSEncoder.SetLocalOrigin(new Vector2(lat, lon));
             // adjust all Shippo positions based on new player location
-            foreach (Location loc in locations) {
+            foreach (Location loc in shippoMap.Keys) {
                 GameObject shippo = shippoMap[loc];
                 // don't readjust the location of the Shippo if it's already grabbed
                 // because it's currently moving to the ShipBall.
                 if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
-                    shippo.transform.position = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
+                    shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
                 }
             }
         }
