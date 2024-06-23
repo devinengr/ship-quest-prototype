@@ -75,7 +75,7 @@ public class ShippoSpawner : MonoBehaviour {
     }
 
     bool ReceivedNewGPSLocationInfo() {
-        return !LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation);
+        return !LocationLogic.CompareLatLon(lastPlayerLocation, locationData.currentLocation);
     }
 
     void RepositionNonGrabbedShippos() {
