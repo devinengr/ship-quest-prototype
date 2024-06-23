@@ -1,19 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
 public class ShippoSpawner : MonoBehaviour {
+
+    #region Instance Variables
 
     [Tooltip("Locations of notable locations on campus.")]
     public List<Location> locations;
     public GameObject shippoCollectablePrefab;
     public GameObject mainCamera;
     public LocationData locationData;
-    public float interactionDistance;
+    public float interactionDistance = 50;
     public GameObject UIShipBall;
 
     public GameObject shippoParent;
@@ -25,23 +23,14 @@ public class ShippoSpawner : MonoBehaviour {
     // are grabbed at the same time
     private float t;
 
-    void Start() {
-        // initialize the origin location
+    #endregion
+
+    #region Start
+
+    void SetGPSEncoderOriginAsCurrentLocation() {
         GPSEncoder.SetLocalOrigin(new Vector2(
             locationData.currentLocation.latitude,
             locationData.currentLocation.longitude));
-        // initialize variables
-        lastPlayerLocation = new Location(0, 0, 0);
-        shippoMap = new Dictionary<Location, GameObject>();
-        // spawn all Shippos and set their locations
-        foreach (Location loc in locations) {
-            GameObject shippo = Instantiate(shippoCollectablePrefab);
-            Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
-            shippo.transform.SetParent(shippoParent.transform, false);
-            shippo.transform.localPosition = pos;
-            shippoMap.Add(loc, shippo);
-            NameShippoLabel(shippo, loc.name);
-        }
     }
 
     void NameShippoLabel(GameObject shippo, string name) {
@@ -49,60 +38,109 @@ public class ShippoSpawner : MonoBehaviour {
         child.GetComponent<TMP_Text>().text = name;
     }
 
+    void SpawnAllShippos() {
+        foreach (Location loc in locations) {
+            GameObject shippo = Instantiate(shippoCollectablePrefab);
+            shippo.transform.SetParent(shippoParent.transform, false);
+            shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
+            shippoMap.Add(loc, shippo);
+            NameShippoLabel(shippo, loc.name);
+        }
+    }
+
+    void InitializeVariables() {
+        lastPlayerLocation = new Location(0, 0, 0);
+        shippoMap = new Dictionary<Location, GameObject>();
+    }
+
+    void Start() {
+        SetGPSEncoderOriginAsCurrentLocation();
+        InitializeVariables();
+        SpawnAllShippos();
+    }
+
+    #endregion
+
+    #region Update
+
     void MakeShippoLabelFaceCamera(GameObject shippo) {
         GameObject child = shippo.transform.GetChild(0).gameObject;
         child.transform.LookAt(mainCamera.transform);
         child.transform.Rotate(new Vector3(0, 180, 0));
     }
 
-    void Update() {
-        // check if the player moved (or if the app just started)
-        if (!LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation)) {
-            float lat = locationData.currentLocation.latitude;
-            float lon = locationData.currentLocation.longitude;
-            // update last player location and get Unity coordinates for it
-            lastPlayerLocation.latitude = lat;
-            lastPlayerLocation.longitude = lon;
-            GPSEncoder.SetLocalOrigin(new Vector2(lat, lon));
-            // adjust all Shippo positions based on new player location
-            foreach (Location loc in shippoMap.Keys) {
-                GameObject shippo = shippoMap[loc];
-                // don't readjust the location of the Shippo if it's already grabbed
-                // because it's currently moving to the ShipBall.
-                if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
-                    shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
-                }
+    void SetLastPlayerLocationAsCurrent() {
+        lastPlayerLocation.latitude = locationData.currentLocation.latitude;
+        lastPlayerLocation.longitude = locationData.currentLocation.longitude;
+    }
+
+    bool ReceivedNewGPSLocationInfo() {
+        return !LocationLogic.CompareLatLon(lastPlayerLocation, locationData.currentLocation);
+    }
+
+    void RepositionNonGrabbedShippos() {
+        foreach (Location loc in shippoMap.Keys) {
+            GameObject shippo = shippoMap[loc];
+            if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
+                shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
             }
         }
-        // loop through all Shippos. if any need to be removed, queue them
-        // for deletion after all Shippos have been iterated through
-        List<Location> toRemove = new List<Location>();
-        foreach (KeyValuePair<Location, GameObject> pair in shippoMap) {
-            Location loc = pair.Key;
-            GameObject shippo = pair.Value;
-            // make the label face the main camera
-            MakeShippoLabelFaceCamera(shippo);
-            // change color based on distance
-            if (Vector3.Distance(mainCamera.transform.position, shippo.transform.position) < interactionDistance) {
-                shippo.GetComponent<Renderer>().material.color = Color.cyan;
-            } else {
-                shippo.GetComponent<Renderer>().material.color = Color.white;
-            }
-            // smoothly move Shippo to the ShipBall if grabbed
-            if (shippo.GetComponent<ShippoCollectable>().grabbed) {
-                shippo.transform.position = Vector3.Lerp(shippo.transform.position, UIShipBall.transform.position, t);
-                shippo.transform.localScale = Vector3.Lerp(shippo.transform.localScale, UIShipBall.transform.localScale, t);
-                t += 0.5f * Time.deltaTime;
-                if (Vector3.Distance(shippo.transform.position, UIShipBall.transform.position) < 0.1f) {
-                    toRemove.Add(loc);
-                }
-            }
-        }
-        // delete queued Shippos
+    }
+
+    void DeleteShipposByLocation(List<Location> toRemove) {
         foreach (Location loc in toRemove) {
             Destroy(shippoMap[loc].transform.gameObject);
             shippoMap.Remove(loc);
         }
     }
+
+    void UpdateShippoColorByDistance(GameObject shippo) {
+        if (Vector3.Distance(mainCamera.transform.position, shippo.transform.position) < interactionDistance) {
+            shippo.GetComponent<Renderer>().material.color = Color.cyan;
+        } else {
+            shippo.GetComponent<Renderer>().material.color = Color.white;
+        }
+    }
+
+    bool ShippoIsGrabbed(GameObject shippo) {
+        return shippo.GetComponent<ShippoCollectable>().grabbed;
+    }
+
+    void MoveShippoTowardBall(GameObject shippo) {
+        shippo.transform.position = Vector3.Lerp(shippo.transform.position, UIShipBall.transform.position, t);
+        shippo.transform.localScale = Vector3.Lerp(shippo.transform.localScale, UIShipBall.transform.localScale, t);
+        t += 0.5f * Time.deltaTime;
+    }
+
+    bool ShippoIsCloseToBall(GameObject shippo) {
+       return Vector3.Distance(shippo.transform.position, UIShipBall.transform.position) < 0.1f; 
+    }
+
+    void UpdateShippos() {
+        List<Location> toRemove = new();
+        foreach (Location loc in shippoMap.Keys) {
+            GameObject shippo = shippoMap[loc];
+            MakeShippoLabelFaceCamera(shippo);
+            UpdateShippoColorByDistance(shippo);
+            if (ShippoIsGrabbed(shippo)) {
+                MoveShippoTowardBall(shippo);
+                if (ShippoIsCloseToBall(shippo)) {
+                    toRemove.Add(loc);
+                }
+            }
+        }
+        DeleteShipposByLocation(toRemove);
+    }
+
+    void Update() {
+        if (ReceivedNewGPSLocationInfo()) {
+            SetLastPlayerLocationAsCurrent();
+            SetGPSEncoderOriginAsCurrentLocation();
+            RepositionNonGrabbedShippos();
+        }
+        UpdateShippos();
+    }
+
+    #endregion
 
 }
