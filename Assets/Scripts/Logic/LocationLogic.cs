@@ -8,9 +8,9 @@ public class LocationLogic {
         float delta = 0.00001f;
         if (Mathf.Abs(l1.latitude - l2.latitude) <= delta) {
             if (Mathf.Abs(l1.longitude - l2.longitude) <= delta) {
-                if (Mathf.Abs(l1.altitude - l2.altitude) <= delta) {
+                // if (Mathf.Abs(l1.altitude - l2.altitude) <= delta) {
                     return true;
-                }
+                // }
             }
         } 
         return false;

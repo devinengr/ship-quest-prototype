@@ -19,7 +19,6 @@ public class ShippoSpawner : MonoBehaviour {
     public GameObject shippoParent;
 
     public Dictionary<Location, GameObject> shippoMap { get; set; }
-    private bool grabbedLocation = false;
     private Location lastPlayerLocation;
     private float t;
 
@@ -35,8 +34,8 @@ public class ShippoSpawner : MonoBehaviour {
         foreach (Location loc in locations) {
             GameObject shippo = Instantiate(shippoCollectablePrefab);
             Vector3 pos = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
+            shippo.transform.SetParent(shippoParent.transform, false);
             shippo.transform.localPosition = pos;
-            shippo.transform.SetParent(shippoParent.transform);
             shippoMap.Add(loc, shippo);
             NameShippoLabel(shippo, loc.name);
         }
@@ -55,8 +54,8 @@ public class ShippoSpawner : MonoBehaviour {
 
     void Update() {
         // check if the player moved (or if the app just started)
-        if (!grabbedLocation || !LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation)) {
-            grabbedLocation = true;
+        if (!LocationLogic.Matches(lastPlayerLocation, locationData.currentLocation)) {
+            Debug.Log("Updating location data");
             float lat = locationData.currentLocation.latitude;
             float lon = locationData.currentLocation.longitude;
             // update last player location and get Unity coordinates for it
@@ -69,6 +68,7 @@ public class ShippoSpawner : MonoBehaviour {
                 // don't readjust the location of the Shippo if it's already grabbed
                 // because it's currently moving to the ShipBall.
                 if (!shippo.GetComponent<ShippoCollectable>().grabbed) {
+                    Debug.Log("confused if running every frame");
                     shippo.transform.localPosition = GPSEncoder.GPSToUCS(loc.latitude, loc.longitude);
                 }
             }

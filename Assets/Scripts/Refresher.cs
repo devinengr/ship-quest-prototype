@@ -15,6 +15,7 @@ public class Refresher : MonoBehaviour {
     public GyroData gyroData;
     public ARSession sessionAR;
     public ShippoParent shippoParent;
+    public Camera mainCamera;
 
     private bool sessionStateFailedOnce;
     private bool sessionStateWaitingForFailure;
@@ -51,6 +52,7 @@ public class Refresher : MonoBehaviour {
         GUILayout.Label("AR Tracking Failed Once: " + sessionStateFailedOnce);
         GUILayout.Label("Compass Calibration Count: " + shippoParent.CalibrationCount);
         GUILayout.Label("Compass Calibration Time: " + (float)shippoParent.CalibrationTime/1000 + " s");
+        GUILayout.Label("Camera Position: " + mainCamera.transform.position);
     }
 
 }

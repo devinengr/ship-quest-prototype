@@ -24,7 +24,7 @@ public class LocationData : MonoBehaviour {
             Debug.Log("Location not enabled. Using default latitude and longitude.");
             currentLocation = defaultLocation;
         }
-        Input.location.Start(5);
+        Input.location.Start();
     }
 
     void Update() {

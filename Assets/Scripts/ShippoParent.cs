@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -43,7 +45,7 @@ public class ShippoParent : MonoBehaviour {
         }
     }
 
-    private void ReattachHippos() {
+    private void AttachHippos() {
         GameObject[] hippos = GameObject.FindGameObjectsWithTag("ShippoTheHippo");
         foreach (GameObject hippo in hippos) {
             hippo.transform.SetParent(transform);
@@ -58,12 +60,13 @@ public class ShippoParent : MonoBehaviour {
         currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         elapsedTime = currentTime - startTime;
         
-        // temporarily detach the hippos while adjusting the position.
-        // this will allow the camera to get closer to the them as the
+        // temporarily detach hippo positions from the parent's
+        // transform while updating the position of the parent.
+        // this will allow the camera to get closer to them as the
         // player moves toward them.
         DetachHippos();
         transform.position = mainCamera.transform.position;
-        ReattachHippos();
+        AttachHippos();
 
         // after a number of seconds, readjust the rotation of the parent
         // of the hippos. this will readjust the position of the hippos
@@ -92,7 +95,6 @@ public class ShippoParent : MonoBehaviour {
                     recalibrationRotationInitial,
                     recalibrationRotationTarget,
                     NormalizeElapsedTime(recalibrationInterval));
-
             }
         }
     }

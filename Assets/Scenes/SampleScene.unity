@@ -430,6 +430,7 @@ MonoBehaviour:
   gyroData: {fileID: 583615604}
   sessionAR: {fileID: 1882095050}
   shippoParent: {fileID: 562380515}
+  mainCamera: {fileID: 1774339251}
 --- !u!114 &583615606
 MonoBehaviour:
   m_ObjectHideFlags: 0
