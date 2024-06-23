@@ -5,11 +5,11 @@ using UnityEngine;
 public class UIShipBall : MonoBehaviour {
 
     public Camera mainCamera;
-    public float offsetX;
-    public float offsetY;
-    public bool rightAnchorX;
-    public bool topAnchorY;
-    public float rotationSpeed;
+    public float offsetX = 100;
+    public float offsetY = 100;
+    public bool rightAnchorX = true;
+    public bool topAnchorY = false;
+    public float rotationSpeed = 100;
 
     private float rotationCurrent = 0;
 

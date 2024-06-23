@@ -13,7 +13,7 @@ public class ShippoSpawner : MonoBehaviour {
     public GameObject shippoCollectablePrefab;
     public GameObject mainCamera;
     public LocationData locationData;
-    public float interactionDistance;
+    public float interactionDistance = 50;
     public GameObject UIShipBall;
 
     public GameObject shippoParent;

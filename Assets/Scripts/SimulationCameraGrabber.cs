@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class SimulationCameraGrabber : MonoBehaviour {
 
-    [Tooltip("The simulation camera is loaded by XR Simulation when the scene starts. The script will automatically fetch it.")]
-    public GameObject simulationCamera;
+    // the simulation camera is generated when running in the editor, so
+    // keep this private
+    private GameObject simulationCamera;
 
     void Start() {
         if (simulationCamera == null && Application.isEditor) {

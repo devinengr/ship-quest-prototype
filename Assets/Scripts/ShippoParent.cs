@@ -16,9 +16,9 @@ public class ShippoParent : MonoBehaviour {
     public CompassData compassData;
 
     [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
-    public long firstCalibrationTime;
+    public long firstCalibrationTime = 3000;
     [Tooltip("Number of milliseconds before readjusting object positions.")]
-    public long recalibrationInterval;
+    public long recalibrationTime = 10000;
 
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
@@ -73,7 +73,7 @@ public class ShippoParent : MonoBehaviour {
         // according to new compass data. wait a few seconds before
         // starting the first calibration to give the calibrator object
         // time to rotate to the correct orientation.
-        if (elapsedTime >= recalibrationInterval || (calibrationCount == 0 && elapsedTime >= firstCalibrationTime)) {
+        if (elapsedTime >= recalibrationTime || (calibrationCount == 0 && elapsedTime >= firstCalibrationTime)) {
             // check if the compass average is stable before readjusting.
             if (compassData.stable) {
                 startTime = currentTime;
@@ -94,7 +94,7 @@ public class ShippoParent : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(
                     recalibrationRotationInitial,
                     recalibrationRotationTarget,
-                    NormalizeElapsedTime(recalibrationInterval));
+                    NormalizeElapsedTime(recalibrationTime));
             }
         }
     }
