@@ -78,7 +78,13 @@ public class ShippoParent : MonoBehaviour {
             if (compassData.stable) {
                 startTime = currentTime;
                 recalibrationRotationInitial = transform.rotation;
-                recalibrationRotationTarget = compassCalibrator.transform.rotation;
+
+                // average all rotation targets from when the app started
+                // to get the cubes to be in a more accurate position over
+                // time.
+                RotationCalculator.AddRotation(compassCalibrator.transform.rotation.eulerAngles);
+                recalibrationRotationTarget = RotationCalculator.CalcAvgRotation();
+
                 calibrationCount += 1;
             }
         }
