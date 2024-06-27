@@ -13,18 +13,24 @@ public class UIShipBall : MonoBehaviour {
 
     private float rotationCurrent = 0;
 
-    void LateUpdate() {
+    private void SetPosition(float percX, float percY) {
+        Vector3 posScreen = new Vector3(percX, percY, mainCamera.nearClipPlane + 1f);
+        Vector3 posWorld = mainCamera.ViewportToWorldPoint(posScreen);
+        transform.position = posWorld;
+    }
+
+    void Start() {
         float posX = offsetX;
         float posY = offsetY;
         float percX = posX / mainCamera.pixelWidth;
         float percY = posY / mainCamera.pixelHeight;
         percX = rightAnchorX ? 1 - percX : percX;
         percY = topAnchorY ? 1 - percY : percY;
-        Vector3 pos = mainCamera.ViewportToWorldPoint(new Vector3(percX, percY, mainCamera.nearClipPlane + 1f));
-        transform.position = pos;
-        transform.rotation = mainCamera.transform.rotation;
-        float rotationSpeedNormalized = rotationSpeed * Time.deltaTime;
-        rotationCurrent += rotationSpeedNormalized;
-        transform.rotation = Quaternion.Euler(0, rotationCurrent, 0);
+        SetPosition(percX, percY);
+    }
+
+    void LateUpdate() {
+        float rotation = rotationSpeed * Time.deltaTime;
+        transform.rotation *= Quaternion.Euler(0f, rotation, 0f);
     }
 }

@@ -89,28 +89,29 @@ public class ShippoParent : MonoBehaviour {
         recalibrationRotationTarget = rotationTarget;
     }
     
-    void Calibrate() {
+    IEnumerator Calibrate() {
         if (calibrationCount == 1) {
             transform.rotation = recalibrationRotationTarget;
-        } else {
+            yield break;
+        }
+        float timeRatio = NormalizeElapsedTime(recalibrationTime);
+        while (timeRatio <= 1f) {
             transform.rotation = Quaternion.Slerp(
                 recalibrationRotationInitial,
                 recalibrationRotationTarget,
-                NormalizeElapsedTime(recalibrationTime));
+                timeRatio);
+            yield return null;
         }
     }
 
     void LateUpdate() {
         UpdateElapsedTime();
         FollowCameraWithoutMovingHippos();
-        // todo move the following code into a coroutine
         if (ReadyToCalibrate()) {
             startTime = currentTime;
-            UpdateRotationTargets();        
-            calibrationCount += 1;
-        }
-        if (calibrationCount >= 1) {
-            Calibrate();
+            calibrationCount++;
+            UpdateRotationTargets();
+            StartCoroutine(Calibrate());
         }
     }
 
