@@ -11,8 +11,6 @@ public class UIShipBall : MonoBehaviour {
     public bool topAnchorY = false;
     public float rotationSpeed = 100;
 
-    private float rotationCurrent = 0;
-
     private void SetPosition(float percX, float percY) {
         Vector3 posScreen = new Vector3(percX, percY, mainCamera.nearClipPlane + 1f);
         Vector3 posWorld = mainCamera.ViewportToWorldPoint(posScreen);

@@ -62,9 +62,9 @@ public class ShippoParent : MonoBehaviour {
         bool interludePassed = elapsedTime >= recalibrationTime;
         bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
         if (interludePassed || doingFirstCalibration) {
-            if (compassData.stable) {
+            // if (compassData.stable) {
                 return true;
-            }
+            // }
         }
         return false;
     }
@@ -72,6 +72,11 @@ public class ShippoParent : MonoBehaviour {
     void UpdateElapsedTime() {
         currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         elapsedTime = currentTime - startTime;
+    }
+
+    void ResetElapsedTime() {
+        startTime = currentTime;
+        UpdateElapsedTime();
     }
 
     void FollowCameraWithoutMovingHippos() {
@@ -94,12 +99,11 @@ public class ShippoParent : MonoBehaviour {
             transform.rotation = recalibrationRotationTarget;
             yield break;
         }
-        float timeRatio = NormalizeElapsedTime(recalibrationTime);
-        while (timeRatio <= 1f) {
+        while (NormalizeElapsedTime(recalibrationTime) <= 1f) {
             transform.rotation = Quaternion.Slerp(
                 recalibrationRotationInitial,
                 recalibrationRotationTarget,
-                timeRatio);
+                NormalizeElapsedTime(recalibrationTime));
             yield return null;
         }
     }
@@ -108,8 +112,8 @@ public class ShippoParent : MonoBehaviour {
         UpdateElapsedTime();
         FollowCameraWithoutMovingHippos();
         if (ReadyToCalibrate()) {
-            startTime = currentTime;
             calibrationCount++;
+            ResetElapsedTime();
             UpdateRotationTargets();
             StartCoroutine(Calibrate());
         }

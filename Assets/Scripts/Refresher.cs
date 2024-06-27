@@ -26,17 +26,17 @@ public class Refresher : MonoBehaviour {
         // the app is not traacking when started. if arSession.Reset() is called
         // at this point, the app may crash or be stuck calling Reset() every frame.
         // wait until it reaches the tracking state and then listen for lost tracking.
-        // if (sessionAR.subsystem.trackingState == TrackingState.Tracking) {
-        //     sessionStateWaitingForFailure = true;
-        //     sessionResetting = false;
-        // }
-        // if (sessionStateWaitingForFailure && sessionAR.subsystem.trackingState != TrackingState.Tracking) {
-        //     sessionStateFailedOnce = true;
-        //     if (!sessionResetting) {
-        //         sessionResetting = true;
-        //         sessionAR.Reset();
-        //     }
-        // }
+        if (sessionAR.subsystem.trackingState == TrackingState.Tracking) {
+            sessionStateWaitingForFailure = true;
+            sessionResetting = false;
+        }
+        if (sessionStateWaitingForFailure && sessionAR.subsystem.trackingState != TrackingState.Tracking) {
+            sessionStateFailedOnce = true;
+            if (!sessionResetting) {
+                sessionResetting = true;
+                sessionAR.Reset();
+            }
+        }
 
         GUILayout.Label("Location Service: " + locationData.locationServiceStatus);
         GUILayout.Label("Compass: " + compassData.lastAvg);
