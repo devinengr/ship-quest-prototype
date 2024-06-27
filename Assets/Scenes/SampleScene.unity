@@ -329,7 +329,8 @@ MonoBehaviour:
   mainCamera: {fileID: 1774339251}
   compassData: {fileID: 583615601}
   firstCalibrationTime: 3000
-  recalibrationInterval: 10000
+  recalibrationTime: 10000
+  rotationsToAverage: 5
 --- !u!1 &583615599
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,8 +768,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1774339246}
-  - {fileID: 562380514}
   - {fileID: 456361254}
+  - {fileID: 562380514}
   m_Father: {fileID: 62801711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1137933720
@@ -1426,7 +1427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TrackingType: 0
-  m_UpdateType: 1
+  m_UpdateType: 0
   m_IgnoreTrackingState: 0
   m_PositionInput:
     m_UseReference: 0
@@ -1625,7 +1626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6b93881d662364aa9de5c1c1f5a877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulationCamera: {fileID: 0}
 --- !u!1 &1844747934
 GameObject:
   m_ObjectHideFlags: 0

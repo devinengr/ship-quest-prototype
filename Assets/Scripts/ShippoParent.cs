@@ -19,6 +19,8 @@ public class ShippoParent : MonoBehaviour {
     public long firstCalibrationTime = 3000;
     [Tooltip("Number of milliseconds before readjusting object positions.")]
     public long recalibrationTime = 10000;
+    [Tooltip("Number of rotations to use to calculate average target rotation for calibration.")]
+    public int rotationsToAverage = 5;
 
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
@@ -56,52 +58,59 @@ public class ShippoParent : MonoBehaviour {
         return (float) elapsedTime / recalibrationTime;
     }
 
-    void LateUpdate() {
+    private bool ReadyToCalibrate() {
+        bool interludePassed = elapsedTime >= recalibrationTime;
+        bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
+        if (interludePassed || doingFirstCalibration) {
+            if (compassData.stable) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void UpdateElapsedTime() {
         currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         elapsedTime = currentTime - startTime;
-        
-        // temporarily detach hippo positions from the parent's
-        // transform while updating the position of the parent.
-        // this will allow the camera to get closer to them as the
-        // player moves toward them.
+    }
+
+    void FollowCameraWithoutMovingHippos() {
         DetachHippos();
         transform.position = mainCamera.transform.position;
         AttachHippos();
+    }
 
-        // after a number of seconds, readjust the rotation of the parent
-        // of the hippos. this will readjust the position of the hippos
-        // according to new compass data. wait a few seconds before
-        // starting the first calibration to give the calibrator object
-        // time to rotate to the correct orientation.
-        if (elapsedTime >= recalibrationTime || (calibrationCount == 0 && elapsedTime >= firstCalibrationTime)) {
-            // check if the compass average is stable before readjusting.
-            if (compassData.stable) {
-                startTime = currentTime;
-                recalibrationRotationInitial = transform.rotation;
-
-                // average all rotation targets from when the app started
-                // to get the cubes to be in a more accurate position over
-                // time.
-                RotationCalculator.AddRotation(compassCalibrator.transform.rotation.eulerAngles);
-                recalibrationRotationTarget = RotationCalculator.CalcAvgRotation();
-
-                calibrationCount += 1;
-            }
+    void UpdateRotationTargets() {
+        float yOld = compassCalibrator.transform.rotation.eulerAngles.y;
+        RotationCalculator.AddRotation(yOld, rotationsToAverage);
+        float yNew = RotationCalculator.CalcAvgRotation();
+        Quaternion rotationTarget = Quaternion.Euler(0f, yNew, 0f);
+        recalibrationRotationInitial = transform.rotation;
+        recalibrationRotationTarget = rotationTarget;
+    }
+    
+    void Calibrate() {
+        if (calibrationCount == 1) {
+            transform.rotation = recalibrationRotationTarget;
+        } else {
+            transform.rotation = Quaternion.Slerp(
+                recalibrationRotationInitial,
+                recalibrationRotationTarget,
+                NormalizeElapsedTime(recalibrationTime));
         }
+    }
 
+    void LateUpdate() {
+        UpdateElapsedTime();
+        FollowCameraWithoutMovingHippos();
+        // todo move the following code into a coroutine
+        if (ReadyToCalibrate()) {
+            startTime = currentTime;
+            UpdateRotationTargets();        
+            calibrationCount += 1;
+        }
         if (calibrationCount >= 1) {
-            // rotate the parent faster on the first pass. this allows
-            // subsequent rotations to be much slower to make them less
-            // noticeable to the user (without sacrificing the initial
-            // rotation).
-            if (calibrationCount == 1) {
-                transform.rotation = recalibrationRotationTarget;
-            } else {
-                transform.rotation = Quaternion.Slerp(
-                    recalibrationRotationInitial,
-                    recalibrationRotationTarget,
-                    NormalizeElapsedTime(recalibrationTime));
-            }
+            Calibrate();
         }
     }
 
