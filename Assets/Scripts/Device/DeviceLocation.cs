@@ -10,7 +10,11 @@ public class DeviceLocation : MonoBehaviour {
     public Location Current { get; private set; }
     public Location Last { get; private set; }
 
-    public bool Initialized { get { return Input.location.status == LocationServiceStatus.Running
+    public bool Initialized { get { return (Input.location.status == LocationServiceStatus.Running &&
+                                    GPSEncoderUtil.OriginInitComplete)
+                                    || Application.isEditor; } }
+
+    public bool DeviceLocationIsEnabled { get { return Input.location.isEnabledByUser
                                     || Application.isEditor; } }
 
     #region Public Methods
@@ -33,15 +37,6 @@ public class DeviceLocation : MonoBehaviour {
         }
     }
 
-    private bool DeviceLocationIsEnabled() {
-        bool enabled = Input.location.isEnabledByUser;
-        if (!enabled) {
-            Debug.Log("Location not enabled. Using default latitude and longitude.");
-            Current = defaultLoc;
-        }
-        return enabled;
-    }
-
     void InitGPSEncoderLocalOrigin() {
         if (GPSEncoderUtil.IsReadyToInitOrigin()) {
             GPSEncoder.SetLocalOrigin(new Vector2(Current.Latitude, Current.Longitude));
@@ -60,11 +55,13 @@ public class DeviceLocation : MonoBehaviour {
 
     private void SetLocationBasedOnDevice() {
         if (Application.isEditor) {
-
-        } else if (DeviceLocationIsEnabled()) {
+            Current = defaultLoc;
+        } else if (DeviceLocationIsEnabled) {
             StartCoroutine(InitLocation());
         } else {
-            // todo
+            Current = defaultLoc;
+            Debug.Log("Location not enabled. Using default latitude and longitude.");
+            // A popup will close the application. This is handled elsewhere.
         }
     }
 
@@ -72,8 +69,6 @@ public class DeviceLocation : MonoBehaviour {
         Last = new Location(0, 0, 0);
         CheckDevicePermission();
         SetLocationBasedOnDevice();
-
-        
     }
 
     #endregion
