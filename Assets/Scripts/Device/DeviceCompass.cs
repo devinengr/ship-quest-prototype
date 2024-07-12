@@ -9,12 +9,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class CompassData : MonoBehaviour {
+public class DeviceCompass : MonoBehaviour {
 
     [Range(5, 90)]
     public int compassAverageCount = 30;
 
-    [Tooltip("The number of degrees that the last compass averages can differ by to be considered stable.")]
     public int degreeRangeForStability = 5;
 
     private bool compassStarted = false;

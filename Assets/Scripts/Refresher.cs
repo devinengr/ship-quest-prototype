@@ -10,10 +10,10 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class Refresher : MonoBehaviour {
 
-    public CompassData compassData;
-    public LocationData locationData;
+    public DeviceCompass compassData;
+    public DeviceLocation locationData;
     public ARSession sessionAR;
-    public ShippoParent shippoParent;
+    public PlaneCalibratableParent shippoParent;
 
     private bool sessionStateFailedOnce;
     private bool sessionStateWaitingForFailure;
@@ -21,7 +21,7 @@ public class Refresher : MonoBehaviour {
 
     void OnGUI() {
         GUI.skin.label.fontSize = Screen.width / 40;
-        float altitudeInFeet = locationData.currentLocation.altitude * 3.28084f;
+        float altitudeInFeet = locationData.Current.Altitude * 3.28084f;
 
         // the app is not traacking when started. if arSession.Reset() is called
         // at this point, the app may crash or be stuck calling Reset() every frame.
@@ -38,11 +38,11 @@ public class Refresher : MonoBehaviour {
             }
         }
 
-        GUILayout.Label("Location Service: " + locationData.locationServiceStatus);
+        GUILayout.Label("Location Service: " + Input.location.status);
         GUILayout.Label("Compass: " + compassData.lastAvg);
-        GUILayout.Label("Latitude: " + locationData.currentLocation.latitude);
-        GUILayout.Label("Longitude: " + locationData.currentLocation.longitude);
-        GUILayout.Label("Altitude: " + locationData.currentLocation.altitude
+        GUILayout.Label("Latitude: " + locationData.Current.Latitude);
+        GUILayout.Label("Longitude: " + locationData.Current.Longitude);
+        GUILayout.Label("Altitude: " + locationData.Current.Altitude
                             + " m (" + altitudeInFeet + " ft)");
         GUILayout.Label("AR Tracking Status: " + sessionAR.subsystem.trackingState);
         GUILayout.Label("AR Tracking Failed Once: " + sessionStateFailedOnce);

@@ -9,11 +9,11 @@ using UnityEngine.Scripting;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ShippoParent : MonoBehaviour {
+public class PlaneCalibratableParent : MonoBehaviour {
 
     public GameObject compassCalibrator;
     public Camera mainCamera;
-    public CompassData compassData;
+    // public DeviceCompass compassData;
 
     [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
     public long firstCalibrationTime = 3000;
@@ -109,14 +109,14 @@ public class ShippoParent : MonoBehaviour {
     }
 
     void LateUpdate() {
-        UpdateElapsedTime();
-        FollowCameraWithoutMovingHippos();
-        if (ReadyToCalibrate()) {
-            calibrationCount++;
-            ResetElapsedTime();
-            UpdateRotationTargets();
-            StartCoroutine(Calibrate());
-        }
+        // UpdateElapsedTime();
+        // FollowCameraWithoutMovingHippos();
+        // if (ReadyToCalibrate()) {
+        //     calibrationCount++;
+        //     ResetElapsedTime();
+        //     UpdateRotationTargets();
+        //     StartCoroutine(Calibrate());
+        // }
     }
 
 }

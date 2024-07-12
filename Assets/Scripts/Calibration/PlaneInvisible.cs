@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CompassCalibrator : MonoBehaviour {
+public class PlaneInvisible : MonoBehaviour {
     
     public Camera mainCamera;
-    public CompassData compassData;
+    public DeviceCompass compassData;
 
     void Update() {
         transform.position = mainCamera.transform.position;

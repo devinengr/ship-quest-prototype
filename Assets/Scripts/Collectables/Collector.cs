@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIShipBall : MonoBehaviour {
+public class Collector : MonoBehaviour {
 
     public Camera mainCamera;
     public float offsetX = 100;
