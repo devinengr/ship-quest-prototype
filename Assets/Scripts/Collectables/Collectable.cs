@@ -6,11 +6,15 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour {
 
-    public Collector collector;
+    private Collector collector;
 
     public float approachSpeed = 2.5f;
 
     public bool IsApproachingCollector { get; private set; }
+
+    void Start() {
+        collector = FindObjectOfType<Collector>();
+    }
 
     public IEnumerator ApproachCollector() {
         IsApproachingCollector = true;

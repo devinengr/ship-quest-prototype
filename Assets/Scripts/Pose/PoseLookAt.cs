@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class PoseLookAt : MonoBehaviour {
 
+    public bool searchForObject = false;
+    public string searchByTag = "";
     public GameObject lookAt;
+
+    void Start() {
+        if (searchForObject) {
+            lookAt = GameObject.FindGameObjectWithTag(searchByTag);
+        }
+    }
 
     void Update() {
         transform.LookAt(lookAt.transform);

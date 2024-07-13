@@ -10,9 +10,8 @@ public class DeviceLocation : MonoBehaviour {
     public Location Current { get; private set; }
     public Location Last { get; private set; }
 
-    public bool Initialized { get { return (Input.location.status == LocationServiceStatus.Running &&
-                                    GPSEncoderUtil.OriginInitComplete)
-                                    || Application.isEditor; } }
+    public bool Initialized { get { return GPSEncoderUtil.OriginInitComplete &&
+                (Input.location.status == LocationServiceStatus.Running || Application.isEditor ); } }
 
     public bool DeviceLocationIsEnabled { get { return Input.location.isEnabledByUser
                                     || Application.isEditor; } }
@@ -56,12 +55,15 @@ public class DeviceLocation : MonoBehaviour {
     private void SetLocationBasedOnDevice() {
         if (Application.isEditor) {
             Current = defaultLoc;
+            InitGPSEncoderLocalOrigin(); 
         } else if (DeviceLocationIsEnabled) {
             StartCoroutine(InitLocation());
         } else {
-            Current = defaultLoc;
-            Debug.Log("Location not enabled. Using default latitude and longitude.");
             // A popup will close the application. This is handled elsewhere.
+            // If the app is to run with a default location, uncomment these two lines
+            // to initialize the default location instead:
+            // Current = defaultLoc;
+            // InitGPSEncoderLocalOrigin(); 
         }
     }
 
@@ -90,6 +92,7 @@ public class DeviceLocation : MonoBehaviour {
     }
 
     void Update() {
+        LocationLogic.LocationIsInitialized = Initialized;
         GetLocation();
     }
 
