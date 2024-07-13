@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
-using UnityEngine.Scripting;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class PlaneCalibratableParent : MonoBehaviour {
 
-    public GameObject compassCalibrator;
+    #region Instance Variables
+
+    public PlaneInvisible compassFollowingPlane;
     public Camera mainCamera;
+    public string collectableTag;
     // public DeviceCompass compassData;
 
     [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
@@ -33,24 +31,32 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public int CalibrationCount { get { return calibrationCount; } }
     public long CalibrationTime { get { return elapsedTime; } }
 
+    #endregion
+
+    #region Start
+
     void Start() {
         startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 
-    private void DetachHippos() {
+    #endregion
+
+    #region Update
+
+    private void DetachCollectables() {
         List<GameObject> children = new List<GameObject>();
         transform.gameObject.GetChildGameObjects(children);
         foreach (GameObject child in children) {
-            if (child.CompareTag("ShippoTheHippo")) {
+            if (child.CompareTag(collectableTag)) {
                 child.transform.SetParent(null);
             }
         }
     }
 
-    private void AttachHippos() {
-        GameObject[] hippos = GameObject.FindGameObjectsWithTag("ShippoTheHippo");
-        foreach (GameObject hippo in hippos) {
-            hippo.transform.SetParent(transform);
+    private void AttachCollectables() {
+        GameObject[] collectables = GameObject.FindGameObjectsWithTag(collectableTag);
+        foreach (GameObject collectable in collectables) {
+            collectable.transform.SetParent(transform);
         }
     }
 
@@ -79,14 +85,14 @@ public class PlaneCalibratableParent : MonoBehaviour {
         UpdateElapsedTime();
     }
 
-    void FollowCameraWithoutMovingHippos() {
-        DetachHippos();
+    void FollowCameraWithoutMovingCollectables() {
+        DetachCollectables();
         transform.position = mainCamera.transform.position;
-        AttachHippos();
+        AttachCollectables();
     }
 
     void UpdateRotationTargets() {
-        float yOld = compassCalibrator.transform.rotation.eulerAngles.y;
+        float yOld = compassFollowingPlane.transform.rotation.eulerAngles.y;
         RotationCalculator.AddRotation(yOld, rotationsToAverage);
         float yNew = RotationCalculator.CalcAvgRotation();
         Quaternion rotationTarget = Quaternion.Euler(0f, yNew, 0f);
@@ -109,14 +115,16 @@ public class PlaneCalibratableParent : MonoBehaviour {
     }
 
     void LateUpdate() {
-        // UpdateElapsedTime();
-        // FollowCameraWithoutMovingHippos();
-        // if (ReadyToCalibrate()) {
-        //     calibrationCount++;
-        //     ResetElapsedTime();
-        //     UpdateRotationTargets();
-        //     StartCoroutine(Calibrate());
-        // }
+        UpdateElapsedTime();
+        FollowCameraWithoutMovingCollectables();
+        if (ReadyToCalibrate()) {
+            calibrationCount++;
+            ResetElapsedTime();
+            UpdateRotationTargets();
+            StartCoroutine(Calibrate());
+        }
     }
+
+    #endregion
 
 }

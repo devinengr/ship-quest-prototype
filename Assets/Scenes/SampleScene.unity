@@ -554,8 +554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247e268234da174e86799ec88be2c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  compassCalibrator: {fileID: 456361253}
+  compassFollowingPlane: {fileID: 456361255}
   mainCamera: {fileID: 1774339251}
+  collectableTag: Collectable
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
@@ -641,6 +642,7 @@ MonoBehaviour:
     longitude: -77.52494
     altitude: 0
   collectablePrefab: {fileID: 3699951565085420819, guid: c60557b339cb70d408e44d7edad4b56a, type: 3}
+  collectableParent: {fileID: 562380513}
 --- !u!1 &704044058
 GameObject:
   m_ObjectHideFlags: 0
