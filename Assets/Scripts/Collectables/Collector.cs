@@ -12,7 +12,7 @@ public class Collector : MonoBehaviour {
     public float rotationSpeed = 100;
 
     private void SetPosition(float percX, float percY) {
-        Vector3 posScreen = new Vector3(percX, percY, mainCamera.nearClipPlane + 1f);
+        Vector3 posScreen = new(percX, percY, mainCamera.nearClipPlane + 2f);
         Vector3 posWorld = mainCamera.ViewportToWorldPoint(posScreen);
         transform.position = posWorld;
     }

@@ -13,6 +13,7 @@ public class Collectable : MonoBehaviour {
     public float distanceToDestroyAt = 0.02f;
     public UnityEvent onCollectableSpawn;
     public UnityEvent onCollectorApproach;
+    public UnityEvent onCollectorReached;
 
     public bool IsApproachingCollector { get; private set; }
 
@@ -31,6 +32,7 @@ public class Collectable : MonoBehaviour {
             t += approachSpeed * Time.deltaTime;
             yield return null;
         }
+        onCollectorReached.Invoke();
         Destroy(transform.gameObject);
     }
 

@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour {
 
-    public int score { get; set; } = 0;
-
     public TMP_Text label;
 
+    public int Score { get; private set; } = 0;
+
+    public void IncrementScore() {
+        Score++;
+    }
+
     void Update() {
-        label.text = "Score: " + score;
+        label.text = "Score: " + Score;
     }
 
 }
