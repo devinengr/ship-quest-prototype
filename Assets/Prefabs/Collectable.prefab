@@ -118,6 +118,9 @@ GameObject:
   - component: {fileID: 4703363553948816006}
   - component: {fileID: 3699951565085420819}
   - component: {fileID: 5770676275466805499}
+  - component: {fileID: 6135073846199995042}
+  - component: {fileID: 4001854333745742170}
+  - component: {fileID: -7018122256620215282}
   m_Layer: 0
   m_Name: Collectable
   m_TagString: Collectable
@@ -157,8 +160,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6028007498373156693}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -169,7 +172,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8302b761276765e41b8222678b944b06, type: 2}
+  - {fileID: 2100000, guid: d69a5a417d0e3414abe0dc3ff4e73bef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -224,7 +227,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7684b4db9eb43b943badc99e913eb2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  approachSpeed: 2.5
+  approachSpeed: 0.25
+  distanceToDestroyAt: 0.02
+  onCollectableSpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4001854333745742170}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: EnableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: -7018122256620215282}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: DisableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  onCollectorApproach:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4001854333745742170}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: DisableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: -7018122256620215282}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: EnableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &4703363553948816006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +327,52 @@ MonoBehaviour:
   distance: 50
   closeColor: {r: 0, g: 1, b: 1, a: 1}
   farColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &6135073846199995042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028007498373156693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a548b9f89c17f4d893d2ab2ba15f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4001854333745742170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028007498373156693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchForObject: 1
+  searchByTag: MainCamera
+  toCompare: {fileID: 0}
+  farDistance: 6
+  closeDistance: 3
+--- !u!114 &-7018122256620215282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028007498373156693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchForObject: 1
+  searchByTag: Collector
+  toCompare: {fileID: 0}
+  farDistance: 2
+  closeDistance: 0
 --- !u!1 &6183410950970076687
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +386,8 @@ GameObject:
   - component: {fileID: 2040447956115309925}
   - component: {fileID: 4624824364058620795}
   - component: {fileID: 7893008152413515297}
+  - component: {fileID: 1993962011983285923}
+  - component: {fileID: 2397734162206973790}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -434,3 +540,28 @@ MonoBehaviour:
   searchForObject: 1
   searchByTag: MainCamera
   lookAt: {fileID: 0}
+--- !u!114 &1993962011983285923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183410950970076687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a548b9f89c17f4d893d2ab2ba15f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2397734162206973790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183410950970076687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: affdc88ae44cde64ea02f00cba01f92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toMatch: {fileID: 6028007498373156693}

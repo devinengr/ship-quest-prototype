@@ -24,9 +24,22 @@ public class DeviceCompass : MonoBehaviour {
 
     private int avgIter = 0;
     private float[] lastCompassAverages;
-    public float lastAvg { get; private set; } = 0;
+    public float LastAvg { get; private set; } = 0;
 
-    public bool stable { get; private set; } = false;
+    public bool Stable { get {
+        // turning the camera means the compass average will lag behind for a second, so
+        // combining the two will cause collectables to be placed incorrectly. to counter this,
+        // wait for the duration that the compass is updated, and as long as all averages
+        // are similar by up to a number of degrees, update it. this works because the
+        // averages are typically very smooth.
+        if (Application.isEditor) {
+            return true;
+        }
+        float min = Mathf.Min(lastCompassAverages);
+        float max = Mathf.Max(lastCompassAverages);
+        bool stable = max - min <= degreeRangeForStability;
+        return stable;
+    } }
 
     void Start() {
         // enable compass
@@ -54,19 +67,7 @@ public class DeviceCompass : MonoBehaviour {
             UpdateCompassList();
             UpdateCompassAverage();
             UpdateAverageList();
-            DetermineStability();
         }
-    }
-
-    private void DetermineStability() {
-        // turning the camera means the compass average will lag behind for a second, so
-        // combining the two will cause hippos to be placed incorrectly. to counter this,
-        // wait for the duration that the compass is updated, and as long as all averages
-        // are similar by up to a number of degrees, update it. this works because the
-        // averages are typically very smooth.
-        float min = Mathf.Min(lastCompassAverages);
-        float max = Mathf.Max(lastCompassAverages);
-        stable = max - min <= degreeRangeForStability;
     }
 
     private void UpdateCompassList() {
@@ -87,11 +88,11 @@ public class DeviceCompass : MonoBehaviour {
         for (int i = 0; i < lastCompassReads.Length; i++) {
             sum += lastCompassReads[i];
         }
-        lastAvg = sum / lastCompassReads.Length % 360;
+        LastAvg = sum / lastCompassReads.Length % 360;
     }
 
     private void UpdateAverageList() {
-        lastCompassAverages[avgIter] = lastAvg;
+        lastCompassAverages[avgIter] = LastAvg;
         avgIter += 1;
         // if avgIter is too large, reset it.
         if (avgIter >= compassAverageCount) {

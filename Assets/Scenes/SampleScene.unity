@@ -557,6 +557,7 @@ MonoBehaviour:
   compassFollowingPlane: {fileID: 456361255}
   mainCamera: {fileID: 1774339251}
   collectableTag: Collectable
+  compassData: {fileID: 27193857}
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
@@ -640,6 +641,22 @@ MonoBehaviour:
   - name: McCune
     latitude: 40.05929
     longitude: -77.52494
+    altitude: 0
+  - name: ShipRec
+    latitude: 40.06394
+    longitude: -77.52403
+    altitude: 0
+  - name: UPS Store
+    latitude: 40.06311
+    longitude: -77.52203
+    altitude: 0
+  - name: CUB
+    latitude: 40.062523
+    longitude: -77.52137
+    altitude: 0
+  - name: Heiges Field House
+    latitude: 40.06293
+    longitude: -77.52137
     altitude: 0
   collectablePrefab: {fileID: 3699951565085420819, guid: c60557b339cb70d408e44d7edad4b56a, type: 3}
   collectableParent: {fileID: 562380513}
@@ -1180,7 +1197,7 @@ GameObject:
   - component: {fileID: 1137933726}
   m_Layer: 0
   m_Name: Collector
-  m_TagString: Untagged
+  m_TagString: Collector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1232,8 +1249,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137933720}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1

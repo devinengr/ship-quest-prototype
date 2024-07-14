@@ -39,7 +39,7 @@ public class Refresher : MonoBehaviour {
         }
 
         GUILayout.Label("Location Service: " + Input.location.status);
-        GUILayout.Label("Compass: " + compassData.lastAvg);
+        GUILayout.Label("Compass: " + compassData.LastAvg);
         GUILayout.Label("Latitude: " + locationData.Current.Latitude);
         GUILayout.Label("Longitude: " + locationData.Current.Longitude);
         GUILayout.Label("Altitude: " + locationData.Current.Altitude
