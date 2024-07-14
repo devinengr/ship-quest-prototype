@@ -5,8 +5,8 @@ using UnityEngine;
 public class UIGameObjectPoser : MonoBehaviour {
 
     public RectTransform canvasTransform;
-    public float offsetX = 80;
-    public float offsetY = 80;
+    public float offsetX = 100;
+    public float offsetY = 100;
     public bool rightAnchorX = true;
     public bool topAnchorY = false;
 

@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(SharedColorFunctions))]
 public class TransparentByDistance : MonoBehaviour {
 
     public bool searchForObject = false;
@@ -13,8 +12,6 @@ public class TransparentByDistance : MonoBehaviour {
     public GameObject toCompare;
     public float farDistance = 6f;
     public float closeDistance = 3f;
-
-    public SharedColorFunctions ColorUtil { get { return GetComponent<SharedColorFunctions>(); } }
 
     void Start() {
         if (searchForObject) {
@@ -40,9 +37,9 @@ public class TransparentByDistance : MonoBehaviour {
     }
 
     void Update() {
-        Color color = ColorUtil.GetColor(gameObject);
+        Color color = SharedColorFunctions.GetColor(gameObject);
         color.a = CalculateAlpha();
-        ColorUtil.SetColor(gameObject, color);
+        SharedColorFunctions.SetColor(gameObject, color);
     }
 
 }

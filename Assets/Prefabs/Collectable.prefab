@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 4703363553948816006}
   - component: {fileID: 3699951565085420819}
   - component: {fileID: 5770676275466805499}
-  - component: {fileID: 6135073846199995042}
   - component: {fileID: 4001854333745742170}
   - component: {fileID: -7018122256620215282}
   - component: {fileID: 7502008343249099043}
@@ -344,18 +343,6 @@ MonoBehaviour:
   distance: 50
   closeColor: {r: 0, g: 1, b: 1, a: 1}
   farColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &6135073846199995042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6028007498373156693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a548b9f89c17f4d893d2ab2ba15f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4001854333745742170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +403,6 @@ GameObject:
   - component: {fileID: 2040447956115309925}
   - component: {fileID: 4624824364058620795}
   - component: {fileID: 7893008152413515297}
-  - component: {fileID: 1993962011983285923}
   - component: {fileID: 2397734162206973790}
   m_Layer: 5
   m_Name: Label
@@ -570,18 +556,6 @@ MonoBehaviour:
   searchForObject: 1
   searchByTag: MainCamera
   lookAt: {fileID: 0}
---- !u!114 &1993962011983285923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6183410950970076687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a548b9f89c17f4d893d2ab2ba15f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2397734162206973790
 MonoBehaviour:
   m_ObjectHideFlags: 0

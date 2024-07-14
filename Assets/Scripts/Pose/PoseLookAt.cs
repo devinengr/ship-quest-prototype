@@ -8,6 +8,10 @@ public class PoseLookAt : MonoBehaviour {
     public string searchByTag = "";
     public GameObject lookAt;
 
+    public void UpdateLookAtObject(GameObject obj) {
+        lookAt = obj;
+    }
+
     void Start() {
         if (searchForObject) {
             lookAt = GameObject.FindGameObjectWithTag(searchByTag);
