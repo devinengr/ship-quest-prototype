@@ -7,6 +7,9 @@ public class LocationCollectable : MonoBehaviour {
 
     public Collectable collectable;
 
+    public bool searchForLocObject = false;
+    public DeviceLocation deviceLocation;
+
     public Location Loc { get; set; }
     
     private bool initializedPosition = false;
@@ -21,14 +24,18 @@ public class LocationCollectable : MonoBehaviour {
     }
 
     void Start() {
+        if (searchForLocObject) {
+            deviceLocation = FindObjectOfType<DeviceLocation>();
+        }
         TryInitializePosition();
         name = Loc.Name;
     }
 
     void Update() {
         TryInitializePosition();
-
-        // todo update over time
+        if (deviceLocation.ReceivedNewGPSInfoLastFrame) {
+            transform.position = GPSEncoder.GPSToUCS(Loc.LatLonVector);
+        }
     }
 
 }

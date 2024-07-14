@@ -10,23 +10,18 @@ public class DeviceLocation : MonoBehaviour {
     public Location Current { get; private set; }
     public Location Last { get; private set; }
 
-    public bool Initialized { get { return GPSEncoderUtil.OriginInitComplete &&
-                (Input.location.status == LocationServiceStatus.Running || Application.isEditor ); } }
+    public bool Initialized { get {
+        return GPSEncoderUtil.OriginInitComplete &&
+                (Input.location.status == LocationServiceStatus.Running ||
+                Application.isEditor ); } }
 
-    public bool DeviceLocationIsEnabled { get { return Input.location.isEnabledByUser
-                                    || Application.isEditor; } }
+    public bool DeviceLocationIsEnabled { get {
+        return Input.location.isEnabledByUser || Application.isEditor; } }
 
-    #region Public Methods
+    public bool ReceivedNewGPSInfoLastFrame { get {
+        return !LocationLogic.CompareLatLon(Last, Current); } }
 
-    public bool HasReceivedNewGPSInfo() {
-        return !LocationLogic.CompareLatLon(Last, Current);
-    }
-
-    public void UpdateNewGPSInfo() {
-        Last = Current;
-    }
-
-    #endregion
+    private bool currentFrameAllowsGPSInfoReceivedChecks = false;
 
     #region Start
 
@@ -94,6 +89,22 @@ public class DeviceLocation : MonoBehaviour {
     void Update() {
         LocationLogic.LocationIsInitialized = Initialized;
         GetLocation();
+    }
+
+    void LateUpdate() {
+        // allow other scripts to check if new GPS info has
+        // been received before resetting it by resetting it
+        // in LateUpdate and using a bool flag to allow one
+        // frame to pass before updating the GPS info.
+        if (ReceivedNewGPSInfoLastFrame) {
+            if (!currentFrameAllowsGPSInfoReceivedChecks) {
+                currentFrameAllowsGPSInfoReceivedChecks = true;
+                GPSEncoder.SetLocalOrigin(new(Current.Latitude, Current.Longitude));
+            } else {
+                currentFrameAllowsGPSInfoReceivedChecks = false;
+                Last = Current;
+            }
+        }
     }
 
     #endregion

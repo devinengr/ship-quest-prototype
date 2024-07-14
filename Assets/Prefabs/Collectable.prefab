@@ -244,7 +244,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
       - m_Target: {fileID: -7018122256620215282}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: DisableBehavior
@@ -256,7 +256,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   onCollectorApproach:
     m_PersistentCalls:
       m_Calls:
@@ -271,7 +271,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
       - m_Target: {fileID: -7018122256620215282}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: EnableBehavior
@@ -283,7 +283,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   onCollectorReached:
     m_PersistentCalls:
       m_Calls:
@@ -298,7 +298,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &4703363553948816006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectable: {fileID: 5367294353687157852}
+  searchForLocObject: 1
+  deviceLocation: {fileID: 0}
 --- !u!114 &5770676275466805499
 MonoBehaviour:
   m_ObjectHideFlags: 0
