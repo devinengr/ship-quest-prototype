@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7684b4db9eb43b943badc99e913eb2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  searchTag: Collector
   approachSpeed: 0.25
   distanceToDestroyAt: 0.02
   onCollectableSpawn:

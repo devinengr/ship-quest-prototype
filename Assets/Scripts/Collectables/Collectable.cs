@@ -7,19 +7,20 @@ using UnityEngine.Events;
 
 public class Collectable : MonoBehaviour {
 
-    private Collector collector;
-
+    public string searchTag;
     public float approachSpeed = 0.25f;
     public float distanceToDestroyAt = 0.02f;
     public UnityEvent onCollectableSpawn;
     public UnityEvent onCollectorApproach;
     public UnityEvent onCollectorReached;
 
+    private GameObject collector;
+
     public bool IsApproachingCollector { get; private set; }
 
     void Start() {
         onCollectableSpawn.Invoke();
-        collector = FindObjectOfType<Collector>();
+        collector = GameObject.FindGameObjectWithTag(searchTag);
     }
 
     public IEnumerator ApproachCollector() {
@@ -28,7 +29,7 @@ public class Collectable : MonoBehaviour {
         float t = 0f;
         while (Vector3.Distance(transform.position, collector.transform.position) > distanceToDestroyAt) {
             transform.position = Vector3.Lerp(transform.position, collector.transform.position, t);
-            transform.localScale = Vector3.Lerp(transform.localScale, collector.transform.localScale, t);
+            transform.localScale = Vector3.Lerp(transform.localScale, collector.transform.lossyScale, t);
             t += approachSpeed * Time.deltaTime;
             yield return null;
         }
