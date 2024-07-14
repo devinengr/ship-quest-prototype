@@ -43,7 +43,6 @@ public class DeviceCompass : MonoBehaviour {
 
     void Start() {
         // enable compass
-        Input.gyro.enabled = true;
         Input.compass.enabled = true;
 
         // initialize
