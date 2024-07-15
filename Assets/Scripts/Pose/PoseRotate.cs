@@ -5,9 +5,11 @@ using UnityEngine;
 public class PoseRotate : MonoBehaviour {
 
     public float speed = 50f;
+    public Vector3 aboutAxis;
 
     void Update() {
-        transform.rotation *= Quaternion.Euler(0, speed * Time.deltaTime, 0);
+        Vector3 rotation = aboutAxis * speed * Time.deltaTime;
+        transform.rotation *= Quaternion.Euler(rotation);
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlaneCalibratableParent : MonoBehaviour {
 
@@ -20,6 +21,10 @@ public class PlaneCalibratableParent : MonoBehaviour {
     [Tooltip("Number of rotations to use to calculate average target rotation for calibration.")]
     public int rotationsToAverage = 5;
 
+    public UnityEvent firstCalibrationReady;
+    public UnityEvent recalibrationReady;
+    public UnityEvent waitingForRecalibrationReady;
+
     private Quaternion recalibrationRotationInitial;
     private Quaternion recalibrationRotationTarget;
     private int calibrationCount = 0;
@@ -27,6 +32,8 @@ public class PlaneCalibratableParent : MonoBehaviour {
     private long startTime;
     private long currentTime;
     private long elapsedTime;
+
+    private bool waitingForRecalibrationReadyInvoked = true;
 
     public int CalibrationCount { get { return calibrationCount; } }
     public long CalibrationTime { get { return elapsedTime; } }
@@ -42,6 +49,23 @@ public class PlaneCalibratableParent : MonoBehaviour {
     #endregion
 
     #region Update
+
+    private void InvokeWaitingForRecalibrationReady() {
+        if (!waitingForRecalibrationReadyInvoked) {
+            waitingForRecalibrationReady.Invoke();
+            waitingForRecalibrationReadyInvoked = true;
+        }
+    }
+
+    private void InvokeRecalibrationReady() {
+        recalibrationReady.Invoke();
+        waitingForRecalibrationReadyInvoked = false;
+    }
+
+    private void InvokeFirstCalibrationReady() {
+        firstCalibrationReady.Invoke();
+        waitingForRecalibrationReadyInvoked = false;
+    }
 
     private void DetachCollectables() {
         List<GameObject> children = new List<GameObject>();
@@ -70,6 +94,8 @@ public class PlaneCalibratableParent : MonoBehaviour {
         if (interludePassed || doingFirstCalibration) {
             if (compassData.Stable) {
                 return true;
+            } else {
+                InvokeWaitingForRecalibrationReady();
             }
         }
         return false;
@@ -103,15 +129,18 @@ public class PlaneCalibratableParent : MonoBehaviour {
     IEnumerator Calibrate() {
         if (calibrationCount == 1) {
             transform.rotation = recalibrationRotationTarget;
-            yield break;
+            InvokeFirstCalibrationReady();
+        } else {
+            InvokeRecalibrationReady();
+            while (NormalizeElapsedTime(recalibrationTime) <= 1f) {
+                transform.rotation = Quaternion.Slerp(
+                    recalibrationRotationInitial,
+                    recalibrationRotationTarget,
+                    NormalizeElapsedTime(recalibrationTime));
+                yield return null;
+            }
         }
-        while (NormalizeElapsedTime(recalibrationTime) <= 1f) {
-            transform.rotation = Quaternion.Slerp(
-                recalibrationRotationInitial,
-                recalibrationRotationTarget,
-                NormalizeElapsedTime(recalibrationTime));
-            yield return null;
-        }
+        
     }
 
     void LateUpdate() {

@@ -5,13 +5,15 @@ using UnityEngine;
 public class FadeOnEvent : MonoBehaviour {
 
     public float transitionSpeed = 2.5f;
-    public bool correctRenderOrder = true;
+    public bool fadeOut = true;
 
     IEnumerator BeginFadeCoroutine() {
+        float start = fadeOut ? 1f : 0f;
+        float end = fadeOut ? 0f : 1f;
         float t = 0f;
         while (t < 1f) {
             t += transitionSpeed * Time.deltaTime;
-            float transparency = Mathf.Lerp(1f, 0f, t);
+            float transparency = Mathf.Lerp(start, end, t);
             SharedColorFunctions.SetTransparency(gameObject, transparency);
             yield return null;
         }
@@ -25,10 +27,8 @@ public class FadeOnEvent : MonoBehaviour {
         SharedColorFunctions.SetTransparency(gameObject, 0f);
     }
 
-    void Start() {
-        if (correctRenderOrder) {
-            GetComponent<Renderer>().material.SetInt("_ZWrite", 1);
-        }
+    public void MakeVisibleImmediately() {
+        SharedColorFunctions.SetTransparency(gameObject, 1f);
     }
 
 }

@@ -11,9 +11,26 @@ public class UIPointAtClosestByTag : MonoBehaviour {
     public Vector3 offsetRotation;
     public bool lockYAxis = false;
     public UnityEvent targetMissingEvent;
-    public UnityEvent noTargetOnStartEvent;
+    public UnityEvent targetFoundEvent;
 
-    private bool targetMissingEventInvoked = false;
+    private bool targetMissingEventInvoked = true;
+    private bool targetFoundEventInvoked = false;
+
+    void InvokeTargetMissing() {
+        if (!targetMissingEventInvoked) {
+            targetFoundEventInvoked = false;
+            targetMissingEventInvoked = true;
+            targetMissingEvent.Invoke();
+        }
+    }
+
+    void InvokeTargetFound() {
+        if (!targetFoundEventInvoked) {
+            targetMissingEventInvoked = false;
+            targetFoundEventInvoked = true;
+            targetFoundEvent.Invoke();
+        }
+    }
 
     GameObject GetClosestByTag() {
         float distanceClosest = float.MaxValue;
@@ -28,31 +45,21 @@ public class UIPointAtClosestByTag : MonoBehaviour {
         return closest;
     }
 
-    bool ObjectToLookAtExists() {
-        return GetClosestByTag() != null;
-    }
-
-    void Start() {
-        if (!ObjectToLookAtExists()) {
-            noTargetOnStartEvent.Invoke();
-            targetMissingEventInvoked = true;
+    void PerformLookAt(GameObject toPointAt) {
+        transform.LookAt(toPointAt.transform);
+        if (lockYAxis) {
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         }
+        transform.Rotate(offsetRotation);
     }
 
     void LateUpdate() {
         GameObject toPointAt = GetClosestByTag();
         if (toPointAt == null) {
-            if (!targetMissingEventInvoked) {
-                targetMissingEvent.Invoke();
-                targetMissingEventInvoked = true;
-            }
+            InvokeTargetMissing();
         } else {
-            targetMissingEventInvoked = false;
-            transform.LookAt(toPointAt.transform);
-            if (lockYAxis) {
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-            }
-            transform.Rotate(offsetRotation);
+            InvokeTargetFound();
+            PerformLookAt(toPointAt);
         }
     }
 
