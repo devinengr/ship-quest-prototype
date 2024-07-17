@@ -785,6 +785,8 @@ GameObject:
   m_Component:
   - component: {fileID: 562380514}
   - component: {fileID: 562380515}
+  - component: {fileID: 562380517}
+  - component: {fileID: 562380516}
   m_Layer: 0
   m_Name: Plane Parent (Calibrator)
   m_TagString: Untagged
@@ -822,7 +824,9 @@ MonoBehaviour:
   compassFollowingPlane: {fileID: 456361255}
   mainCamera: {fileID: 1774339251}
   collectableTag: Collectable
-  compassData: {fileID: 27193857}
+  deviceCompass: {fileID: 27193857}
+  deviceGyro: {fileID: 1900722488}
+  angleFromUprightDesired: 10
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
@@ -844,6 +848,18 @@ MonoBehaviour:
       - m_Target: {fileID: 86403767}
         m_TargetAssemblyTypeName: UIHideOnEvent, Assembly-CSharp
         m_MethodName: HideOnEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 562380516}
+        m_TargetAssemblyTypeName: MakeChildrenVisibleOnCalibrateEvent, Assembly-CSharp
+        m_MethodName: OnCalibrateEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -883,6 +899,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &562380516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562380513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fc11dff7e5cd64bb7f1f0fcb3dd044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &562380517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562380513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01cd37c3150ee6142aeee82df8af9adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionSpeed: 2.5
+  fadeOut: 0
 --- !u!1 &687739108
 GameObject:
   m_ObjectHideFlags: 0

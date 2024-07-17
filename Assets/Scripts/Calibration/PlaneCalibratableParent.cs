@@ -12,7 +12,10 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public PlaneInvisible compassFollowingPlane;
     public Camera mainCamera;
     public string collectableTag;
-    public DeviceCompass compassData;
+    public DeviceCompass deviceCompass;
+    public DeviceGyroscope deviceGyro;
+
+    public int angleFromUprightDesired = 10;
 
     [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
     public long firstCalibrationTime = 3000;
@@ -92,7 +95,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
         bool interludePassed = elapsedTime >= recalibrationTime;
         bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
         if (interludePassed || doingFirstCalibration) {
-            if (compassData.Stable) {
+            if (deviceCompass.Stable && deviceGyro.AngleFromUpright() < angleFromUprightDesired) {
                 return true;
             } else {
                 InvokeWaitingForRecalibrationReady();
