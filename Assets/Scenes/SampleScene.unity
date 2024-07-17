@@ -977,8 +977,8 @@ MonoBehaviour:
     longitude: -77.52137
     altitude: 0
   - name: Heiges Field House
-    latitude: 40.06293
-    longitude: -77.52137
+    latitude: 40.062874
+    longitude: -77.52364
     altitude: 0
   collectablePrefab: {fileID: 3699951565085420819, guid: c60557b339cb70d408e44d7edad4b56a, type: 3}
   collectableParent: {fileID: 562380513}

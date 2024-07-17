@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TMPro.Examples;
 using UnityEngine;
 
 public class LocationCollectable : MonoBehaviour {
@@ -17,7 +18,12 @@ public class LocationCollectable : MonoBehaviour {
     void TryInitializePosition() {
         if (!initializedPosition) {
             if (LocationLogic.LocationIsInitialized) {
-                transform.position = GPSEncoder.GPSToUCS(Loc.LatLonVector);
+                if (collectable.name.Equals("ShipRec")) {
+                    Debug.Log(deviceLocation.Current.LatLonVector.x);
+                    Debug.Log(deviceLocation.Current.LatLonVector.y);
+                }
+
+                transform.localPosition = GPSEncoder.GPSToUCS(Loc.LatLonVector);
                 initializedPosition = true;
             }
         }
@@ -33,8 +39,15 @@ public class LocationCollectable : MonoBehaviour {
 
     void Update() {
         TryInitializePosition();
-        if (deviceLocation.ReceivedNewGPSInfoLastFrame) {
-            transform.position = GPSEncoder.GPSToUCS(Loc.LatLonVector);
+        if (!GPSEncoderUtil.ObjectUsedNewLocationOrigin(gameObject)) {
+            GPSEncoderUtil.UpdateObjectLocationOrigin(gameObject);
+            if (!collectable.IsApproachingCollector) {
+                transform.localPosition = GPSEncoder.GPSToUCS(Loc.LatLonVector);
+                if (collectable.name.Equals("ShipRec")) {
+                    Debug.Log(deviceLocation.Current.LatLonVector.x);
+                    Debug.Log(deviceLocation.Current.LatLonVector.y);
+                }
+            }
         }
     }
 

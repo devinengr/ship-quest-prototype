@@ -7,7 +7,6 @@ public class UIHideOnEvent : MonoBehaviour {
     public GameObject toHide;
 
     public void HideOnEvent() {
-        Debug.Log("hiding " + toHide.name);
         toHide.SetActive(false);
     }
 

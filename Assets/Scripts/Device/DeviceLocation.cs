@@ -8,7 +8,6 @@ public class DeviceLocation : MonoBehaviour {
     public Location defaultLoc;
 
     public Location Current { get; private set; }
-    public Location Last { get; private set; }
 
     public bool Initialized { get {
         return GPSEncoderUtil.OriginInitComplete &&
@@ -17,11 +16,6 @@ public class DeviceLocation : MonoBehaviour {
 
     public bool DeviceLocationIsEnabled { get {
         return Input.location.isEnabledByUser || Application.isEditor; } }
-
-    public bool ReceivedNewGPSInfoLastFrame { get {
-        return !LocationLogic.CompareLatLon(Last, Current); } }
-
-    private bool currentFrameAllowsGPSInfoReceivedChecks = false;
 
     #region Start
 
@@ -33,7 +27,7 @@ public class DeviceLocation : MonoBehaviour {
 
     void InitGPSEncoderLocalOrigin() {
         if (GPSEncoderUtil.IsReadyToInitOrigin()) {
-            GPSEncoder.SetLocalOrigin(new Vector2(Current.Latitude, Current.Longitude));
+            GPSEncoderUtil.UpdateOrigin(Current);
             GPSEncoderUtil.OriginInitComplete = true;
         }
     }
@@ -63,7 +57,6 @@ public class DeviceLocation : MonoBehaviour {
     }
 
     void Start() {
-        Last = new Location(0, 0, 0);
         CheckDevicePermission();
         SetLocationBasedOnDevice();
     }
@@ -86,25 +79,16 @@ public class DeviceLocation : MonoBehaviour {
         }
     }
 
+    void UpdateGPSOrigin() {
+        if (!GPSEncoderUtil.OriginIsUpToDate(Current)) {
+            GPSEncoderUtil.UpdateOrigin(Current);
+        }
+    }
+
     void Update() {
         LocationLogic.LocationIsInitialized = Initialized;
         GetLocation();
-    }
-
-    void LateUpdate() {
-        // allow other scripts to check if new GPS info has
-        // been received before resetting it by resetting it
-        // in LateUpdate and using a bool flag to allow one
-        // frame to pass before updating the GPS info.
-        if (ReceivedNewGPSInfoLastFrame) {
-            if (!currentFrameAllowsGPSInfoReceivedChecks) {
-                currentFrameAllowsGPSInfoReceivedChecks = true;
-                GPSEncoder.SetLocalOrigin(new(Current.Latitude, Current.Longitude));
-            } else {
-                currentFrameAllowsGPSInfoReceivedChecks = false;
-                Last = Current;
-            }
-        }
+        UpdateGPSOrigin();
     }
 
     #endregion
