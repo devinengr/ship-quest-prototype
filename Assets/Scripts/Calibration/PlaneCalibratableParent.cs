@@ -95,7 +95,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
         bool interludePassed = elapsedTime >= recalibrationTime;
         bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
         if (interludePassed || doingFirstCalibration) {
-            if (deviceCompass.Stable && deviceGyro.AngleFromUpright() < angleFromUprightDesired) {
+            if (deviceCompass.Stable && deviceGyro.AngleFromPortraitUpright() < angleFromUprightDesired) {
                 return true;
             } else {
                 InvokeWaitingForRecalibrationReady();

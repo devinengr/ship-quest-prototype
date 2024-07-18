@@ -23,7 +23,8 @@ public class UIDebugInfo : MonoBehaviour {
         GUILayout.Label("Longitude: " + locationData.Current.Longitude);
         GUILayout.Label("Compass Calibration Count: " + planeParent.CalibrationCount);
         GUILayout.Label("Compass Calibration Time: " + (float)planeParent.CalibrationTime/1000 + " s");
-        GUILayout.Label("Camera Upright Angle: " + gyroscopeData.AngleFromUpright());
+        GUILayout.Label("Camera Upright Angle (Portrait): " + gyroscopeData.AngleFromPortraitUpright());
+        GUILayout.Label("Camera Upright Angle (Landscape): " + gyroscopeData.AngleFromLandscapeUpright());
     }
 
 }
