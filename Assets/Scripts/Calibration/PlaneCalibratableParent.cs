@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,12 +20,14 @@ public class PlaneCalibratableParent : MonoBehaviour {
 
     public int angleFromUprightDesired = 10;
 
-    [Tooltip("Number of milliseconds it takes for object positions to readjust on the first calibration.")]
+    [Tooltip("Number of milliseconds to wait to compile compass data before doing first calibration.")]
     public long firstCalibrationTime = 3000;
     [Tooltip("Number of milliseconds before readjusting object positions.")]
     public long recalibrationTime = 10000;
     [Tooltip("Number of rotations to use to calculate average target rotation for calibration.")]
     public int rotationsToAverage = 5;
+    [Tooltip("Number of milliseconds it takes for object positions to readjust.")]
+    public long repositioningPeriod = 1000;
 
     public UnityEvent firstCalibrationReady;
     public UnityEvent recalibrationReady;
@@ -147,7 +150,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(
                     recalibrationRotationInitial,
                     recalibrationRotationTarget,
-                    NormalizeElapsedTime(recalibrationTime));
+                    NormalizeElapsedTime(repositioningPeriod));
                 yield return null;
             }
         }

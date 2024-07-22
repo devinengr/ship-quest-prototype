@@ -1319,6 +1319,7 @@ MonoBehaviour:
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
+  repositioningPeriod: 1000
   firstCalibrationReady:
     m_PersistentCalls:
       m_Calls:
