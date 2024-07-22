@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(CalibrationObserverManager))]
 public class PlaneCalibratableParent : MonoBehaviour {
 
     #region Instance Variables
@@ -41,11 +43,14 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public int CalibrationCount { get { return calibrationCount; } }
     public long CalibrationTime { get { return elapsedTime; } }
 
+    private CalibrationObserverManager calibrationObserverManager;
+
     #endregion
 
     #region Start
 
     void Start() {
+        calibrationObserverManager = GetComponent<CalibrationObserverManager>();
         startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 
@@ -55,17 +60,20 @@ public class PlaneCalibratableParent : MonoBehaviour {
 
     private void InvokeWaitingForRecalibrationReady() {
         if (!waitingForRecalibrationReadyInvoked) {
+            calibrationObserverManager.WaitingForCalibrationReadyHandle();
             waitingForRecalibrationReady.Invoke();
             waitingForRecalibrationReadyInvoked = true;
         }
     }
 
     private void InvokeRecalibrationReady() {
+        calibrationObserverManager.RecalibrationReadyHandle();
         recalibrationReady.Invoke();
         waitingForRecalibrationReadyInvoked = false;
     }
 
     private void InvokeFirstCalibrationReady() {
+        calibrationObserverManager.FirstCalibrationReadyHandle();
         firstCalibrationReady.Invoke();
         waitingForRecalibrationReadyInvoked = false;
     }

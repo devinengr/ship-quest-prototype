@@ -5,10 +5,22 @@ using UnityEngine;
 
 public class MatchTransparency : MonoBehaviour {
 
-    public GameObject toMatch;
+    public List<GameObject> toMatch;
+    public bool matchMostVisible = true;
+
+    float GetHighestTransparency() {
+        float max = 0f;
+        foreach (GameObject obj in toMatch) {
+            float current = SharedColorFunctions.GetTransparency(obj);
+            if (current > max) {
+                max = current;
+            }
+        }
+        return max;
+    }
 
     void LateUpdate() {
-        float transparencyToMatch = SharedColorFunctions.GetTransparency(toMatch);
+        float transparencyToMatch = GetHighestTransparency();
         SharedColorFunctions.SetTransparency(gameObject, transparencyToMatch);
     }
 

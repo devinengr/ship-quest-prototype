@@ -12,6 +12,9 @@ public class TransparentByDistance : MonoBehaviour {
     public GameObject toCompare;
     public float farDistance = 6f;
     public float closeDistance = 3f;
+    public bool visibleWhenCloser = false;
+    public bool setAlphaTarget = false;
+    public AlphaTarget alphaTarget;
 
     void Start() {
         if (searchForObject) {
@@ -33,6 +36,9 @@ public class TransparentByDistance : MonoBehaviour {
         float range = Mathf.Abs(farDistance - closeDistance);
         float distanceRaw = distanceClamped - closeDistance;
         float alpha = distanceRaw / range;
+        if (visibleWhenCloser) {
+            alpha = 1 - alpha;
+        }
         return alpha;
     }
 
@@ -40,6 +46,9 @@ public class TransparentByDistance : MonoBehaviour {
         Color color = SharedColorFunctions.GetColor(gameObject);
         color.a = CalculateAlpha();
         SharedColorFunctions.SetColor(gameObject, color);
+        if (setAlphaTarget) {
+            alphaTarget.Alpha = color.a;
+        }
     }
 
 }
