@@ -18,7 +18,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public DeviceCompass deviceCompass;
     public DeviceGyroscope deviceGyro;
 
-    public int angleFromUprightDesired = 10;
+    public int angleFromUprightDesired = 25;
 
     [Tooltip("Number of milliseconds to wait to compile compass data before doing first calibration.")]
     public long firstCalibrationTime = 3000;

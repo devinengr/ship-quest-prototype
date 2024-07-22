@@ -10,13 +10,10 @@ public class DeviceGyroscope : MonoBehaviour {
         return SystemInfo.supportsGyroscope || Application.isEditor; } }
 
     public float AngleFromPortraitUpright() {
-        return Vector3.Angle(mainCamera.transform.up, Vector3.up);
-        // todo
-        // return mainCamera.transform.rotation.eulerAngles.x;
+        return mainCamera.transform.rotation.eulerAngles.x;
     }
 
     public float AngleFromLandscapeUpright() {
-        // todo
         return mainCamera.transform.rotation.eulerAngles.z;
     }
 

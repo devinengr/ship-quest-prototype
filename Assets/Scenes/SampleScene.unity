@@ -1315,7 +1315,7 @@ MonoBehaviour:
   collectableTag: Collectable
   deviceCompass: {fileID: 27193857}
   deviceGyro: {fileID: 1900722488}
-  angleFromUprightDesired: 10
+  angleFromUprightDesired: 15
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
