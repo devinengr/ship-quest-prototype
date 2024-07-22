@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class UIShowOnGameObjectClick : MonoBehaviour {
+public class GameObjectClickHandler : MonoBehaviour {
 
     public XRScreenSpaceController controller;
     public XRRayInteractor raycastInteractor;

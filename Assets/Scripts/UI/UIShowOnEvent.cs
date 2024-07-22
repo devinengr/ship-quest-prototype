@@ -6,7 +6,7 @@ public class UIShowOnEvent : MonoBehaviour {
 
     public GameObject toShow;
 
-    public void ShowOnEvent() {
+    public virtual void ShowOnEvent() {
         toShow.SetActive(true);
     }
 
