@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 86403768}
   - component: {fileID: 86403767}
   - component: {fileID: 86403773}
+  - component: {fileID: 86403774}
   m_Layer: 5
   m_Name: Device Upright Prompt
   m_TagString: Untagged
@@ -433,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8792453, g: 0.6326083, b: 0.52257025, a: 1}
+  m_Color: {r: 0.8867924, g: 0.6423775, b: 0.5337486, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -472,6 +473,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deviceLocation: {fileID: 1763791241}
   toHide: {fileID: 86403765}
+--- !u!114 &86403774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86403765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9402021459806184c95951f08ed27283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gyroscope: {fileID: 1900722488}
+  color: {r: 0, g: 0.4867924, b: 0.019980485, a: 1}
+  minAngle: 15
+  maxAngle: 65
 --- !u!1001 &97748500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1315,7 +1332,8 @@ MonoBehaviour:
   collectableTag: Collectable
   deviceCompass: {fileID: 27193857}
   deviceGyro: {fileID: 1900722488}
-  angleFromUprightDesired: 15
+  angleUprightMin: 15
+  angleUprightMax: 65
   firstCalibrationTime: 3000
   recalibrationTime: 10000
   rotationsToAverage: 5
@@ -4982,6 +5000,7 @@ GameObject:
   - component: {fileID: 1978177862}
   - component: {fileID: 1978177861}
   - component: {fileID: 1978177860}
+  - component: {fileID: 1978177866}
   m_Layer: 5
   m_Name: Calibration Info Prompt
   m_TagString: Untagged
@@ -5115,6 +5134,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -200, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1978177866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978177859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9402021459806184c95951f08ed27283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gyroscope: {fileID: 1900722488}
+  color: {r: 0, g: 0.4867924, b: 0.019980485, a: 1}
+  minAngle: 15
+  maxAngle: 65
 --- !u!1 &2032360708
 GameObject:
   m_ObjectHideFlags: 0

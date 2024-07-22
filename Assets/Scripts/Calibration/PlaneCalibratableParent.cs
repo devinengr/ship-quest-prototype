@@ -6,6 +6,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.XR.Interaction.Toolkit.Utilities.Tweenables.Primitives;
 
 [RequireComponent(typeof(CalibrationObserverManager))]
 public class PlaneCalibratableParent : MonoBehaviour {
@@ -18,7 +19,8 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public DeviceCompass deviceCompass;
     public DeviceGyroscope deviceGyro;
 
-    public int angleFromUprightDesired = 25;
+    public int angleUprightMin = 15;
+    public int angleUprightMax = 65;
 
     [Tooltip("Number of milliseconds to wait to compile compass data before doing first calibration.")]
     public long firstCalibrationTime = 3000;
@@ -106,7 +108,8 @@ public class PlaneCalibratableParent : MonoBehaviour {
         bool interludePassed = elapsedTime >= recalibrationTime;
         bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
         if (interludePassed || doingFirstCalibration) {
-            if (deviceCompass.Stable && deviceGyro.AngleFromPortraitUpright() < angleFromUprightDesired) {
+            float angle = deviceGyro.AngleFromPortraitUpright();
+            if (deviceCompass.Stable && angleUprightMin <= angle && angle <= angleUprightMax) {
                 return true;
             } else {
                 InvokeWaitingForRecalibrationReady();
