@@ -18,11 +18,6 @@ public class LocationCollectable : MonoBehaviour {
     void TryInitializePosition() {
         if (!initializedPosition) {
             if (LocationLogic.LocationIsInitialized) {
-                if (collectable.name.Equals("ShipRec")) {
-                    Debug.Log(deviceLocation.Current.LatLonVector.x);
-                    Debug.Log(deviceLocation.Current.LatLonVector.y);
-                }
-
                 transform.localPosition = GPSEncoder.GPSToUCS(Loc.LatLonVector);
                 initializedPosition = true;
             }
@@ -43,10 +38,6 @@ public class LocationCollectable : MonoBehaviour {
             GPSEncoderUtil.UpdateObjectLocationOrigin(gameObject);
             if (!collectable.IsApproachingCollector) {
                 transform.localPosition = GPSEncoder.GPSToUCS(Loc.LatLonVector);
-                if (collectable.name.Equals("ShipRec")) {
-                    Debug.Log(deviceLocation.Current.LatLonVector.x);
-                    Debug.Log(deviceLocation.Current.LatLonVector.y);
-                }
             }
         }
     }
