@@ -15,6 +15,8 @@ public class TransparentByDistance : MonoBehaviour {
     public bool visibleWhenCloser = false;
     public bool setAlphaTarget = false;
     public AlphaTarget alphaTarget;
+    public bool useAlphaTargetAsFarAlpha = false;
+    public bool useAlphaTargetAsCloseAlpha = false;
 
     void Start() {
         if (searchForObject) {
@@ -30,12 +32,27 @@ public class TransparentByDistance : MonoBehaviour {
         enabled = false;
     }
 
+    float GetCloseAlpha() {
+        if (useAlphaTargetAsCloseAlpha) {
+            return alphaTarget.Alpha;
+        }
+        return 0f;
+    }
+
+    float GetFarAlpha() {
+        if (useAlphaTargetAsFarAlpha) {
+            return alphaTarget.Alpha;
+        }
+        return 1f;
+    }
+
     float CalculateAlpha() {
         float distance = Vector3.Distance(transform.position, toCompare.transform.position);
-        float distanceClamped = Mathf.Clamp(distance, closeDistance, farDistance);
-        float range = Mathf.Abs(farDistance - closeDistance);
-        float distanceRaw = distanceClamped - closeDistance;
-        float alpha = distanceRaw / range;
+        float distanceFromClose = distance - closeDistance;
+        float range = farDistance - closeDistance;
+        float distanceFromCloseNormalized = distanceFromClose / range;
+        float alpha = Mathf.Lerp(GetCloseAlpha(), GetFarAlpha(), distanceFromCloseNormalized);
+
         if (visibleWhenCloser) {
             alpha = 1 - alpha;
         }

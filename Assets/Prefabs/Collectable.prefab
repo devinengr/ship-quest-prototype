@@ -248,6 +248,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2839977452001291592}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: DisableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1491167922776188022}
+        m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
+        m_MethodName: DisableBehavior
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onCollectorReached:
     m_PersistentCalls:
       m_Calls:
@@ -500,6 +524,7 @@ GameObject:
   - component: {fileID: 8619134099171031359}
   - component: {fileID: 5568556837025783550}
   - component: {fileID: 1491167922776188022}
+  - component: {fileID: 2839977452001291592}
   - component: {fileID: 6946300984887916115}
   - component: {fileID: 2548331551746758682}
   - component: {fileID: 7295743054612134183}
@@ -612,11 +637,35 @@ MonoBehaviour:
   searchForObject: 1
   searchByTag: MainCamera
   toCompare: {fileID: 0}
-  farDistance: 60
+  farDistance: 55
   closeDistance: 50
   visibleWhenCloser: 1
   setAlphaTarget: 1
   alphaTarget: {fileID: 2158670749985199929}
+  useAlphaTargetAsFarAlpha: 0
+  useAlphaTargetAsCloseAlpha: 0
+--- !u!114 &2839977452001291592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8363741138937356625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchForObject: 1
+  searchByTag: MainCamera
+  toCompare: {fileID: 0}
+  farDistance: 6
+  closeDistance: 3
+  visibleWhenCloser: 0
+  setAlphaTarget: 1
+  alphaTarget: {fileID: 2158670749985199929}
+  useAlphaTargetAsFarAlpha: 1
+  useAlphaTargetAsCloseAlpha: 0
 --- !u!114 &6946300984887916115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,7 +685,9 @@ MonoBehaviour:
   closeDistance: 0
   visibleWhenCloser: 0
   setAlphaTarget: 0
-  alphaTarget: {fileID: 0}
+  alphaTarget: {fileID: 2158670749985199929}
+  useAlphaTargetAsFarAlpha: 1
+  useAlphaTargetAsCloseAlpha: 0
 --- !u!114 &2548331551746758682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,11 +855,13 @@ MonoBehaviour:
   searchForObject: 1
   searchByTag: MainCamera
   toCompare: {fileID: 0}
-  farDistance: 60
+  farDistance: 55
   closeDistance: 50
   visibleWhenCloser: 0
   setAlphaTarget: 1
   alphaTarget: {fileID: 1654331585933000205}
+  useAlphaTargetAsFarAlpha: 0
+  useAlphaTargetAsCloseAlpha: 0
 --- !u!114 &6742298237167628079
 MonoBehaviour:
   m_ObjectHideFlags: 0
