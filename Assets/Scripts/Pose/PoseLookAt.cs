@@ -7,6 +7,9 @@ public class PoseLookAt : MonoBehaviour {
     public bool searchForObject = false;
     public string searchByTag = "";
     public GameObject lookAt;
+    public float xOffset = 0f;
+    public float yOffset = 0f;
+    public float zOffset = 0f;
 
     public void UpdateLookAtObject(GameObject obj) {
         lookAt = obj;
@@ -20,7 +23,7 @@ public class PoseLookAt : MonoBehaviour {
 
     void Update() {
         transform.LookAt(lookAt.transform);
-        transform.Rotate(new Vector3(0, 180, 0));
+        transform.Rotate(new Vector3(xOffset, yOffset, zOffset));
     }
 
 }

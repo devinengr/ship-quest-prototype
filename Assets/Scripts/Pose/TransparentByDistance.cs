@@ -60,11 +60,10 @@ public class TransparentByDistance : MonoBehaviour {
     }
 
     void Update() {
-        Color color = SharedColorFunctions.GetColor(gameObject);
-        color.a = CalculateAlpha();
-        SharedColorFunctions.SetColor(gameObject, color);
+        float alpha = CalculateAlpha();
+        SharedColorFunctions.SetTransparency(gameObject, alpha);
         if (setAlphaTarget) {
-            alphaTarget.Alpha = color.a;
+            alphaTarget.Alpha = alpha;
         }
     }
 
