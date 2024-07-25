@@ -1336,7 +1336,7 @@ MonoBehaviour:
   angleUprightMax: 65
   msToFirstCalibration: 3000
   msToRecalibration: 10000
-  rotationsToAverage: 5
+  maxRotationsInAverage: 5
   repositioningPeriod: 1000
   firstCalibrationReady:
     m_PersistentCalls:
@@ -1507,6 +1507,70 @@ MonoBehaviour:
   - name: Spiritual Center
     latitude: 40.0606
     longitude: -77.5185
+    altitude: 0
+  - name: SU Police
+    latitude: 40.05868
+    longitude: -77.52377
+    altitude: 0
+  - name: Old Main
+    latitude: 40.058174
+    longitude: -77.52206
+    altitude: 0
+  - name: Stewart
+    latitude: 40.058365
+    longitude: -77.52199
+    altitude: 0
+  - name: Rowland
+    latitude: 40.05875
+    longitude: -77.52145
+    altitude: 0
+  - name: Shearer
+    latitude: 40.0589
+    longitude: -77.5212
+    altitude: 0
+  - name: Huber Art Center
+    latitude: 40.059204
+    longitude: -77.52177
+    altitude: 0
+  - name: Memorial Auditorium
+    latitude: 40.0594
+    longitude: -77.52101
+    altitude: 0
+  - name: Shippen
+    latitude: 40.060013
+    longitude: -77.52146
+    altitude: 0
+  - name: Luhrs Elementary
+    latitude: 40.060776
+    longitude: -77.52077
+    altitude: 0
+  - name: McLean
+    latitude: 40.063087
+    longitude: -77.51911
+    altitude: 0
+  - name: Mowrey
+    latitude: 40.063786
+    longitude: -77.52116
+    altitude: 0
+  - name: Seavers
+    latitude: 40.06452
+    longitude: -77.51917
+    altitude: 0
+  - name: Naugle
+    latitude: 40.06429
+    longitude: -77.51893
+    altitude: 0
+  - name: Hockey Rink
+    latitude: 40.065075
+    longitude: -77.52119
+    altitude: 0
+  - name: Luhrs Performing Arts
+    latitude: 40.063866
+    longitude: -77.52222
+    altitude: 0
+  - name: Etter Health Center
+    latitude: 40.064266
+    longitude: -77.51855
     altitude: 0
   collectablePrefab: {fileID: 3699951565085420819, guid: c60557b339cb70d408e44d7edad4b56a, type: 3}
   collectableParent: {fileID: 562380513}
