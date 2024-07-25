@@ -23,11 +23,11 @@ public class PlaneCalibratableParent : MonoBehaviour {
     public int angleUprightMax = 65;
 
     [Tooltip("Number of milliseconds to wait to compile compass data before doing first calibration.")]
-    public long firstCalibrationTime = 3000;
+    public long msToFirstCalibration = 3000;
     [Tooltip("Number of milliseconds before readjusting object positions.")]
-    public long recalibrationTime = 10000;
+    public long msToRecalibration = 10000;
     [Tooltip("Number of rotations to use to calculate average target rotation for calibration.")]
-    public int rotationsToAverage = 5;
+    public int maxRotationsInAverage = 5;
     [Tooltip("Number of milliseconds it takes for object positions to readjust.")]
     public long repositioningPeriod = 1000;
 
@@ -105,8 +105,8 @@ public class PlaneCalibratableParent : MonoBehaviour {
     }
 
     private bool ReadyToCalibrate() {
-        bool interludePassed = elapsedTime >= recalibrationTime;
-        bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= firstCalibrationTime;
+        bool interludePassed = elapsedTime >= msToRecalibration;
+        bool doingFirstCalibration = calibrationCount == 0 && elapsedTime >= msToFirstCalibration;
         if (interludePassed || doingFirstCalibration) {
             float angle = deviceGyro.AngleFromPortraitUpright();
             if (deviceCompass.Stable && angleUprightMin <= angle && angle <= angleUprightMax) {
@@ -136,7 +136,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
 
     void UpdateRotationTargets() {
         float yOld = compassFollowingPlane.transform.rotation.eulerAngles.y;
-        RotationCalculator.AddRotation(yOld, rotationsToAverage);
+        RotationCalculator.AddRotation(yOld, maxRotationsInAverage);
         float yNew = RotationCalculator.CalcAvgRotation();
         Quaternion rotationTarget = Quaternion.Euler(0f, yNew, 0f);
         recalibrationRotationInitial = transform.rotation;
@@ -149,7 +149,7 @@ public class PlaneCalibratableParent : MonoBehaviour {
             InvokeFirstCalibrationReady();
         } else {
             InvokeRecalibrationReady();
-            while (NormalizeElapsedTime(recalibrationTime) <= 1f) {
+            while (NormalizeElapsedTime(msToRecalibration) <= 1f) {
                 transform.rotation = Quaternion.Slerp(
                     recalibrationRotationInitial,
                     recalibrationRotationTarget,

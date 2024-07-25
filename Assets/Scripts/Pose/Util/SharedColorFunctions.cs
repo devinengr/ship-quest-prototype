@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SharedColorFunctions : MonoBehaviour {
+public class SharedColorFunctions {
 
     public static bool GameObjectIsTextLabel(GameObject obj) {
         return obj.GetComponent<TMP_Text>() != null;

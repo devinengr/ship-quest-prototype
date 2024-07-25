@@ -222,7 +222,7 @@ MonoBehaviour:
   onCollectableSpawn:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6946300984887916115}
+      - m_Target: {fileID: 7841661314031974901}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: DisableBehavior
         m_Mode: 1
@@ -237,7 +237,7 @@ MonoBehaviour:
   onCollectorApproach:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6946300984887916115}
+      - m_Target: {fileID: 7841661314031974901}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: EnableBehavior
         m_Mode: 1
@@ -249,7 +249,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2839977452001291592}
+      - m_Target: {fileID: 8268629709590346991}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: DisableBehavior
         m_Mode: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1491167922776188022}
+      - m_Target: {fileID: 4090360152954393915}
         m_TargetAssemblyTypeName: TransparentByDistance, Assembly-CSharp
         m_MethodName: DisableBehavior
         m_Mode: 1
@@ -539,9 +539,9 @@ GameObject:
   - component: {fileID: 7928007802833826223}
   - component: {fileID: 8619134099171031359}
   - component: {fileID: 5568556837025783550}
-  - component: {fileID: 1491167922776188022}
-  - component: {fileID: 2839977452001291592}
-  - component: {fileID: 6946300984887916115}
+  - component: {fileID: 4090360152954393915}
+  - component: {fileID: 8268629709590346991}
+  - component: {fileID: 7841661314031974901}
   - component: {fileID: 2548331551746758682}
   - component: {fileID: 7295743054612134183}
   - component: {fileID: 2158670749985199929}
@@ -638,7 +638,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1491167922776188022
+--- !u!114 &4090360152954393915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -647,7 +647,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8363741138937356625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fd19070409a81b49a16c99cc11682aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   searchForObject: 1
@@ -660,7 +660,7 @@ MonoBehaviour:
   alphaTarget: {fileID: 2158670749985199929}
   useAlphaTargetAsFarAlpha: 0
   useAlphaTargetAsCloseAlpha: 0
---- !u!114 &2839977452001291592
+--- !u!114 &8268629709590346991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8363741138937356625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Script: {fileID: 11500000, guid: e086b1fe8fe532d4b8fa3cd1d76a9c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   searchForObject: 1
@@ -682,7 +682,7 @@ MonoBehaviour:
   alphaTarget: {fileID: 2158670749985199929}
   useAlphaTargetAsFarAlpha: 1
   useAlphaTargetAsCloseAlpha: 0
---- !u!114 &6946300984887916115
+--- !u!114 &7841661314031974901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8363741138937356625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88baf544f44748c4db7e9c5314e96693, type: 3}
+  m_Script: {fileID: 11500000, guid: be6679cca070a30419a2368f840bdfdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   searchForObject: 1
@@ -1032,6 +1032,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c04dd5566a45fa45a81a854a604f585, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5168106005142193778}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c04dd5566a45fa45a81a854a604f585, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6522886620649279052}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c04dd5566a45fa45a81a854a604f585, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 412608077247553404}
   m_SourcePrefab: {fileID: 100100000, guid: 7c04dd5566a45fa45a81a854a604f585, type: 3}
 --- !u!4 &2586789465776798983 stripped
 Transform:
@@ -1203,6 +1209,8 @@ MonoBehaviour:
   forwardOffset: -1
   rightOffset: 0
   upOffset: -1
+  setPositionTarget: 1
+  positionTarget: {fileID: 6522886620649279052}
 --- !u!114 &5168106005142193778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1225,3 +1233,33 @@ MonoBehaviour:
   alphaTarget: {fileID: 0}
   useAlphaTargetAsFarAlpha: 0
   useAlphaTargetAsCloseAlpha: 0
+--- !u!114 &6522886620649279052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931227617131063229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbd02de2f011f54f9b08f5902b70be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &412608077247553404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931227617131063229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471ffda5619e6cf419f76d4303621281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 6028007498373156693}
+  positionTarget: {fileID: 6522886620649279052}
+  alongForwardAxis: 0
+  alongRightAxis: 0
+  alongUpAxis: 0.5
+  speed: 2.5
