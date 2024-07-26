@@ -2,92 +2,88 @@
 
 
 
-## Getting started
+# Description
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+This is an early prototype of an augmented reality application designed to display spheres around the Shippensburg University campus. Students can use the app to explore campus by going to each of the spheres and collecting them. Each sphere is placed on a notable location, such as a building. Note that this app is not designed with other users in mind. However, by recompiling the app with your own locations, you can tailor it to suit your needs.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+# Requirements
 
-## Add your files
+Required:
+* Unity version 2022.3.29f1 ([Download it here](https://unity.com/download))
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+To build for Android:
+* An Android device that includes a GPS, gyrometer, and compass (most modern devices have these)
+* sdktools 10.0 (can be installed via [Android Studio](https://developer.android.com/studio))
 
-```
-cd existing_repo
-git remote add origin https://gitlab.engr.ship.edu/devin/ship-quest-prototype.git
-git branch -M main
-git push -uf origin main
-```
+To build for iOS:
+* Any Mac that can be updated to the newest OS version
+* Xcode
+* An iPhone
 
-## Integrate with your tools
+# Installation
 
-- [ ] [Set up project integrations](https://gitlab.engr.ship.edu/devin/ship-quest-prototype/-/settings/integrations)
+To install and run the project, you'll need Unity installed on your machine. Unity's personal edition will suffice. [You can find a link to download it here.](https://unity.com/download). Using Unity Hub, install version 2022.3.29f1 to avoid any potential issues with version differences.
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+# Unity Setup
 
-## Test and Deploy
+Clone the repository: `git clone https://github.com/devinengr/ship-quest-prototype.git`
 
-Use the built-in continuous integration in GitLab.
+Then, open Unity Hub and add the project:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+![add project](repo_res/unity_hub_add_project.png)
 
-***
+Once added, open it:
 
-# Editing this README
+If the scene looks empty, then the project may not have opened in the correct scene. In the project view, open the Scenes folder and open `MainWorld.scene`:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+![open scene](repo_res/scenes_open_main_world.png)
 
-## Suggestions for a good README
+Once done, you should be able to click the run button. When the app is running in the editor, it will use a location on the Shippensburg University campus as the default location.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-## Name
-Choose a self-explaining name for your project.
+# Android Studio Setup
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This part is only required if you plan to build the project for Android. Make sure Android Studio is installed, and create a new empty project (or skip this step if possible). You'll want to see a window that looks like this:
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+![android studio](repo_res/android_studio_main_window.png)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Click the 3 lines on the top left (indicated in the image above), and click File > Settings:
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+![toolbar settings](repo_res/android_studio_file_settings.png)
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Then, navigate to the Android SDK settings as shown in this image:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+![android sdk](repo_res/android_studio_sdk_tools.png)
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Ensure that `Hide Obsolete Packages` is **unchecked** on the bottom right, which should reveal the outlined option labeled `Android SDK Tools (Obsolete)`. Check this option and click Apply. This will install the version of the SDK Tools that Unity requires, and Unity should now be able to auto-detect it in later steps.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+> ## Note
+> There are multiple ways of installing the SDK tools. [Unity has a guide on the methods here](https://docs.unity3d.com/2018.4/Documentation/Manual/android-sdksetup.html). It's worth having a look at it if you run into any issues.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+# How to Build for Android
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+To build the project for Android, go to File > Build Settings.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+![toolbar build settings](repo_res/file_build_settings.png)
 
-## License
-For open source projects, say how it is licensed.
+On the left panel labeled "Platform," you'll see a grayed-out option for Android. Click that, then click the "Switch Platform" button on the right.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+You may also need to install Unity's Android tools. There will be a button on the right that will take you through this process if you need to do that. Make sure your browser's security settings allow you to open apps from a link, as the button will open a link in your browser that takes you to Unity Hub.
+
+Once you finish this process, restart Unity.
+
+Go back to build settings, and you should see a window that looks like this:
+
+![build settings window](repo_res/window_build_settings_android.png)
+
+> ## Android USB Debugging
+> At this point, you'll need to make sure that USB debugging is enabled on your phone. If it is not, then you won't be able to build the app on your phone. To do this, go into your phone's settings > About phone > Build number. Tap "Build number" 7 times. You may need to put in your device passcode or PIN. This will enable development settings. Once you do that, go back to the main menu of your phone's settings, click System, then Development settings. Scroll down until you find an option for USB debugging. Enable it, and your phone should be good to go.
+>
+> Unity also covers this on their [SDK setup guide](https://docs.unity3d.com/2018.4/Documentation/Manual/android-sdksetup.html).
+
+Plug your phone into your computer, click "Allow" on the popup if necessary, then click `Build And Run`. If you get a popup in Unity that asks about using multiple input systems, click Yes.
+
+![input handling popup](repo_res/input_handling_popup.png)
+
+The build process may take a while. Once it is finished, the app should run on your phone automatically. Make sure to give it the precise location permission, and make sure location services are enabled on your phone.
