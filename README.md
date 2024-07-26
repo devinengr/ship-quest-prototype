@@ -1,6 +1,12 @@
 # Ship Quest Prototype
 
+![harley](repo_res/mini_harley.gif)
 
+![huber](repo_res/mini_huber_fade.gif)
+
+![shippen](repo_res/mini_shippen.gif)
+
+![fsc](repo_res/mini_fsc.gif)
 
 # Description
 
